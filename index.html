@@ -1,0 +1,304 @@
+---
+title: Body Recomposition Calculator
+description: Free science-based recomp calculator for fat loss and muscle gain.
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include head.html %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>RecompLab – Body Recomposition Calculator | Lose Fat & Build Muscle</title>
+    <meta name="description" content="Calculate your exact daily calories, protein intake, and macro targets for body recomposition. Science-backed formula to lose fat and gain lean muscle simultaneously. Free body recomposition calculator.">
+    <meta name="keywords" content="body recomposition calculator, calorie deficit, muscle gain, maintenance calories, protein calculator, lean bulk, body fat percentage, fat loss calculator">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="./">
+          <div class="brand-dot">
+            <i class="bi bi-lightning-charge-fill"></i>
+          </div>Recomp <span>Lab</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list" style="font-size:1.5rem;color:var(--text)"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+            <li class="nav-item">
+              <a class="nav-link active" href="#calculator">Calculator</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#how-it-works">How It Works</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#./guides-blog.html">Guides</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#faq">FAQ</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main id="main-content">
+      <section class="hero" id="home">
+        <div class="container">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+              <div class="hero-badge">
+                <i class="bi bi-patch-check-fill"></i>Science-backed body recomposition formula
+              </div>
+              <h1 class="hero-title">Body <span class="hl">Recomposition</span>
+                <br>Calculator
+              </h1>
+              <p class="hero-sub">Calculate your ideal calories, protein intake, and muscle-building targets to lose fat and gain lean muscle simultaneously. Personalized macros powered by real physiology science.</p>
+              <div class="hero-stats mt-4">
+                <div class="h-stat">
+                  <div class="h-stat-n">99<em>%</em>
+                  </div>
+                  <div class="h-stat-l">Calories optimized</div>
+                </div>
+                <div class="h-stat">
+                  <div class="h-stat-n">2.2<em>g</em>
+                  </div>
+                  <div class="h-stat-l">Protein per kg</div>
+                </div>
+                <div class="h-stat">
+                  <div class="h-stat-n">3<em>x</em>
+                  </div>
+                  <div class="h-stat-l">More accurate</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-flex justify-content-center">
+              <svg class="hero-svg" width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="150" cy="150" r="140" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="6 5" />
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#0f1e17" stroke-width="1" stroke-dasharray="4 6" />
+                <ellipse cx="150" cy="100" rx="28" ry="30" fill="#dcfce7" stroke="#16a34a" stroke-width="2" />
+                <path d="M124 130 Q112 175 116 215 L184 215 Q188 175 176 130 Z" fill="#f0fdf4" stroke="#0f1e17" stroke-width="2" />
+                <path d="M124 135 Q106 155 110 195" stroke="#16a34a" stroke-width="7" stroke-linecap="round" fill="none" />
+                <path d="M176 135 Q194 155 190 195" stroke="#16a34a" stroke-width="7" stroke-linecap="round" fill="none" />
+                <path d="M135 215 Q130 248 128 270" stroke="#0f1e17" stroke-width="8" stroke-linecap="round" fill="none" />
+                <path d="M165 215 Q170 248 172 270" stroke="#0f1e17" stroke-width="8" stroke-linecap="round" fill="none" />
+                <circle cx="236" cy="108" r="4" fill="#16a34a" />
+                <circle cx="72" cy="194" r="3" fill="#0f1e17" />
+                <circle cx="214" cy="58" r="3" fill="#16a34a" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="calc-wrap" id="calculator">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-9 col-lg-10">
+              <div class="calc-card">
+                <div class="calc-header">
+                  <h1 class="calc-title">
+                    <i class="bi bi-lightning-charge-fill me-2"></i>Body Recomposition Calculator
+                  </h1>
+                  <div class="calc-sub">Fill in your details for a precise, personalized calorie and macro recommendation</div>
+                </div>
+                <div class="calc-body">
+                  <div class="mb-4">
+                    <label class="form-label" id="unitSystemLabel">
+                      <i class="bi bi-globe2"></i>Unit System </label>
+                    <div class="unit-toggle" role="group" aria-labelledby="unitSystemLabel">
+                      <button class="unit-btn active" id="btnKg" onclick='setUnit("kg")' aria-pressed="true">Metric (kg / cm)</button>
+                      <button class="unit-btn" id="btnLb" onclick='setUnit("lb")' aria-pressed="false">Imperial (lbs / in)</button>
+                    </div>
+                  </div>
+                  <div class="row g-3 mb-3">
+                    <div class="col-6 col-md-3">
+                      <label class="form-label" for="age">
+                        <i class="bi bi-calendar3"></i>Age </label>
+                      <div class="field-wrap">
+                        <input type="number" id="age" name="age" class="field-input" placeholder="25" min="13" max="100">
+                        <span class="field-unit">yrs</span>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <label class="form-label" for="gender">
+                        <i class="bi bi-gender-ambiguous"></i>Sex </label>
+                      <select id="gender" name="gender" class="field-input">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <label class="form-label" for="height">
+                        <i class="bi bi-rulers"></i>Height </label>
+                      <div class="field-wrap">
+                        <input type="number" id="height" name="height" class="field-input" placeholder="175" min="100" max="250">
+                        <span class="field-unit" id="heightUnit">cm</span>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <label class="form-label" for="weight">
+                        <i class="bi bi-person-fill"></i>Body Weight </label>
+                      <div class="field-wrap">
+                        <input type="number" id="weight" name="weight" class="field-input" placeholder="75" min="30" max="300">
+                        <span class="field-unit" id="weightUnit">kg</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row g-3 mb-3">
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="activity">
+                        <i class="bi bi-lightning-fill"></i>Activity Level </label>
+                      <select id="activity" name="activity" class="field-input">
+                        <option value="1.2">Sedentary</option>
+                        <option value="1.375">Lightly Active</option>
+                        <option value="1.55" selected="selected">Moderately Active</option>
+                        <option value="1.725">Very Active</option>
+                        <option value="1.9">Athlete</option>
+                      </select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="goalType">
+                        <i class="bi bi-trophy-fill"></i>Primary Goal </label>
+                      <select id="goalType" name="goalType" class="field-input">
+                        <option value="recomp">Lose Fat & Gain Muscle</option>
+                        <option value="fatloss">Aggressive Fat Loss</option>
+                        <option value="leanbulk">Lean Bulk</option>
+                        <option value="maintenance">Maintenance</option>
+                      </select>
+                    </div>
+                  </div>
+                  <button class="btn-calc mt-4" onclick="calculate()" aria-label="Calculate my body recomposition targets">
+                    <i class="bi bi-lightning-charge-fill"></i>Calculate Body Recomposition </button>
+                  <div class="result-panel" id="resultPanel">
+                    <div class="result-hero">
+                      <div class="result-label-top">YOUR DAILY CALORIE TARGET</div>
+                      <div class="result-num" id="resultMain">—</div>
+                      <div class="result-unit" id="resultUnit">kcal / day</div>
+                      <div class="result-equiv" id="resultEquiv">—</div>
+                    </div>
+                    <div class="breakdown-grid" id="breakdownGrid"></div>
+                    <div class="disclaimer">
+                      <i class="bi bi-info-circle-fill"></i>
+                      <div>
+                        <strong>Medical Disclaimer:</strong>These calculations are estimates based on validated formulas for healthy adults. Consult a registered dietitian or physician before major dietary changes.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section-wrap border-top" id="how-it-works" style="border-color:var(--border)!important">
+        <div class="container">
+          <div class="text-center mb-5">
+            <h2 class="sec-title">How Our Calculator Works</h2>
+            <p class="sec-sub">Estimates based on standard nutrition formulas and user inputs. Results are approximate.</p>
+          </div>
+          <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+              <div class="feature-card">
+                <div class="f-icon f-icon-green">
+                  <i class="bi bi-fire" style="color:var(--primary)"></i>
+                </div>
+                <div class="f-title">TDEE Calculation</div>
+                <div class="f-desc">Calculates BMR using the Mifflin-St Jeor equation and applies an activity multiplier to estimate daily calorie needs.</div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div class="feature-card">
+                <div class="f-icon f-icon-blue">
+                  <i class="bi bi-egg-fill" style="color:var(--accent)"></i>
+                </div>
+                <div class="f-title">Protein Estimation</div>
+                <div class="f-desc">Protein intake is suggested based on body weight to support muscle maintenance and growth during different goals.</div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div class="feature-card">
+                <div class="f-icon f-icon-yellow">
+                  <i class="bi bi-graph-up-arrow" style="color:var(--accent2)"></i>
+                </div>
+                <div class="f-title">Calorie Adjustment</div>
+                <div class="f-desc">Adjusts calories based on your goal (fat loss, maintenance, or muscle gain) using a simple deficit or surplus method.</div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div class="feature-card">
+                <div class="f-icon f-icon-purple">
+                  <i class="bi bi-stars" style="color:var(--accent3)"></i>
+                </div>
+                <div class="f-title">Result Guidance</div>
+                <div class="f-desc">Provides estimated results for general fitness tracking. Actual progress depends on training, diet and lifestyle.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section-wrap border-top" id="faq" style="padding-bottom:48px;border-color:var(--border)!important">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="text-center mb-5">
+                <h2 class="sec-title">Frequently Asked Questions</h2>
+                <p class="sec-sub">Answers to common questions about body recomposition, calorie targets, and results.</p>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" onclick='toggleFaq(this.closest(".faq-item"))' aria-expanded="false">Can beginners gain muscle and lose fat faster than advanced lifters? <i class="bi bi-plus faq-icon" aria-hidden="true"></i>
+                </button>
+                <div class="faq-a" role="region">Yes. Beginners usually gain muscle and lose fat faster. Their body reacts quickly to new training and diet changes.</div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" onclick='toggleFaq(this.closest(".faq-item"))' aria-expanded="false">Should I eat at maintenance calories for body recomposition? <i class="bi bi-plus faq-icon" aria-hidden="true"></i>
+                </button>
+                <div class="faq-a" role="region">Yes, in most cases. Eating near maintenance with high protein works best for recomposition.</div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" onclick='toggleFaq(this.closest(".faq-item"))' aria-expanded="false">Why is my weight not changing during body recomposition? <i class="bi bi-plus faq-icon" aria-hidden="true"></i>
+                </button>
+                <div class="faq-a" role="region">That’s normal. Fat loss and muscle gain can balance each other, so weight may stay the same.</div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" onclick='toggleFaq(this.closest(".faq-item"))' aria-expanded="false">How much protein do I need daily for recomposition results? <i class="bi bi-plus faq-icon" aria-hidden="true"></i>
+                </button>
+                <div class="faq-a" role="region">Around 1.6–2.2g per kg of body weight is ideal. Higher protein helps protect muscle while losing fat.</div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" onclick='toggleFaq(this.closest(".faq-item"))' aria-expanded="false">Can I do body recomposition without going to the gym? <i class="bi bi-plus faq-icon" aria-hidden="true"></i>
+                </button>
+                <div class="faq-a" role="region">Yes, but results are limited. Resistance training gives much better muscle and fat loss results.</div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" onclick='toggleFaq(this.closest(".faq-item"))' aria-expanded="false">What happens if I eat too much in a recomposition plan? <i class="bi bi-plus faq-icon" aria-hidden="true"></i>
+                </button>
+                <div class="faq-a" role="region">If calories go too high, fat loss slows or stops. Your body may shift into a slow bulk phase instead.</div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" onclick='toggleFaq(this.closest(".faq-item"))' aria-expanded="false">Is body recomposition suitable for overweight people? <i class="bi bi-plus faq-icon" aria-hidden="true"></i>
+                </button>
+                <div class="faq-a" role="region">Yes. It works very well for overweight people. They often lose fat and gain muscle at the same time more easily.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      {% include footer.html %}
+    </footer>
+    <button class="scroll-top" id="scrollTop" onclick='window.scrollTo({top:0,behavior:"smooth"})'>
+      <i class="bi bi-arrow-up"></i>
+    </button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./calculator.js"></script>
+    <script>
+      window.addEventListener("scroll", () => {
+        const e = document.getElementById("scrollTop");
+        e && (e.style.display = window.scrollY > 400 ? "flex" : "none")
+      });
+    </script>
+  </body>
+</html>
