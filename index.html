@@ -255,19 +255,6 @@ image: /images/cover.jpg
         </div>
       </section>
     </main>
-    <footer>
       {% include footer.html %}
-    </footer>
-    <button class="scroll-top" id="scrollTop" onclick='window.scrollTo({top:0,behavior:"smooth"})'>
-      <i class="bi bi-arrow-up"></i>
-    </button>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./calculator.js"></script>
-    <script>
-      window.addEventListener("scroll", () => {
-        const e = document.getElementById("scrollTop");
-        e && (e.style.display = window.scrollY > 400 ? "flex" : "none")
-      });
-    </script>
   </body>
 </html>
