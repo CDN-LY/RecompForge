@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 325 50">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 50">
   <text 
     x="50%" 
     y="50%" 
     text-anchor="middle"
     dominant-baseline="middle"
     font-family="system-ui,-apple-system,'Segoe UI',sans-serif" 
-    font-size="42" 
+    font-size="44" 
     font-weight="800"
   >
     <tspan fill="#0f1e17">Recomp</tspan><tspan fill="#16a34a">Forge</tspan>
