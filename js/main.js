@@ -163,3 +163,53 @@ window.addEventListener('scroll', () => {
 		a.classList.toggle('active', a.getAttribute('href') === '#' + current);
 	});
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const blogPosts = {{ site.data.blog | jsonify }};
+
+  function shuffle(arr) {
+    return [...arr].sort(() => Math.random() - 0.5);
+  }
+
+  function render() {
+
+    const data = shuffle(blogPosts).slice(0, 4);
+
+    document.getElementById("blogGrid").innerHTML =
+      data.map(p => `
+        <div class="blog-card visible">
+
+          <div class="blog-thumb">
+            <i class="bi ${p.icon}"
+               style="color:${p.color};font-size:2.2rem">
+            </i>
+          </div>
+
+          <div class="blog-content">
+
+            <span class="blog-badge ${p.cls}">
+              ${p.badge}
+            </span>
+
+            <div class="blog-title">
+              ${p.title}
+            </div>
+
+            <div class="blog-excerpt">
+              ${p.excerpt}
+            </div>
+
+            <a href="#" class="blog-read" onclick="return false;">
+              Read Guide <i class="bi bi-arrow-right"></i>
+            </a>
+
+          </div>
+
+        </div>
+      `).join("");
+  }
+
+  render();
+
+});
