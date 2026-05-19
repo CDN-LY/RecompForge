@@ -778,6 +778,7 @@ select.field-input {
   display: block;
   margin: 36px auto 0;
   padding: 13px 36px;
+  text-decoration: none;
   background: transparent;
   border: 1.5px solid var(--border);
   border-radius: 12px;
