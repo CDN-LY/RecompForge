@@ -8,7 +8,9 @@ image: /images/RecompForge.jpeg
 <html lang="en"> {% include head.html %}
 
 <script>
-  const blogPosts = {{ site.data.blog | jsonify }};
+document.addEventListener("DOMContentLoaded", () => {
+
+  const blogPosts = JSON.parse('{{ site.data.blog | jsonify | escape }}');
 
   function getCount() {
     return window.innerWidth <= 768 ? 3 : 4;
@@ -26,19 +28,23 @@ image: /images/RecompForge.jpeg
   }
 
   function render() {
+
     const count = getCount();
 
     const data = shuffle(blogPosts).slice(0, count);
 
     document.getElementById("blogGrid").innerHTML =
       data.map(p => `
-        <div class="blog-card">
+        <div class="blog-card visible">
 
           <div class="blog-thumb">
-            <i class="bi ${p.icon}" style="color:${p.color};font-size:2.2rem"></i>
+            <i class="bi ${p.icon}"
+               style="color:${p.color};font-size:2.2rem">
+            </i>
           </div>
 
           <div class="blog-content">
+
             <span class="blog-badge ${p.cls}">
               ${p.badge}
             </span>
@@ -50,6 +56,11 @@ image: /images/RecompForge.jpeg
             <div class="blog-excerpt">
               ${p.excerpt}
             </div>
+
+            <a href="#" class="blog-read" onclick="return false;">
+              Read Guide <i class="bi bi-arrow-right"></i>
+            </a>
+
           </div>
 
         </div>
@@ -57,6 +68,10 @@ image: /images/RecompForge.jpeg
   }
 
   render();
+
+  window.addEventListener("resize", render);
+
+});
 </script>
 
 <body> {% include navbar.html %} <main id="main-content">
