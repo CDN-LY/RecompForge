@@ -163,39 +163,3 @@ window.addEventListener('scroll', () => {
 		a.classList.toggle('active', a.getAttribute('href') === '#' + current);
 	});
 });
-
-
-
-  const blogPosts = {{ site.data.blog | jsonify }};
-
-  function getCount(){
-    return window.innerWidth <= 768 ? 3 : 4;
-  }
-
-  function shuffle(arr){
-    return [...arr].sort(() => Math.random() - 0.5);
-  }
-
-  function render(){
-    const count = getCount();
-    const data = shuffle(blogPosts).slice(0, count);
-
-    document.getElementById("blogGrid").innerHTML = data.map(p => `
-      <div class="blog-card">
-
-        <div class="blog-thumb">
-          <i class="bi ${p.icon}" style="color:${p.color};font-size:2.2rem"></i>
-        </div>
-
-        <div class="blog-content">
-          <span class="blog-badge ${p.cls}">${p.badge}</span>
-          <div class="blog-title">${p.title}</div>
-          <div class="blog-excerpt">${p.excerpt}</div>
-        </div>
-
-      </div>
-    `).join("");
-  }
-
-  window.addEventListener("load", render);
-  window.addEventListener("resize", render);

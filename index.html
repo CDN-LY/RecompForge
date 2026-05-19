@@ -7,6 +7,58 @@ image: /images/RecompForge.jpeg
 <!DOCTYPE html>
 <html lang="en"> {% include head.html %}
 
+<script>
+  const blogPosts = {{ site.data.blog | jsonify }};
+
+  function getCount() {
+    return window.innerWidth <= 768 ? 3 : 4;
+  }
+
+  function shuffle(arr) {
+    const array = [...arr];
+
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
+  }
+
+  function render() {
+    const count = getCount();
+
+    const data = shuffle(blogPosts).slice(0, count);
+
+    document.getElementById("blogGrid").innerHTML =
+      data.map(p => `
+        <div class="blog-card">
+
+          <div class="blog-thumb">
+            <i class="bi ${p.icon}" style="color:${p.color};font-size:2.2rem"></i>
+          </div>
+
+          <div class="blog-content">
+            <span class="blog-badge ${p.cls}">
+              ${p.badge}
+            </span>
+
+            <div class="blog-title">
+              ${p.title}
+            </div>
+
+            <div class="blog-excerpt">
+              ${p.excerpt}
+            </div>
+          </div>
+
+        </div>
+      `).join("");
+  }
+
+  render();
+</script>
+
 <body> {% include navbar.html %} <main id="main-content">
 		<section class="hero" id="home">
 			<div class="container">
