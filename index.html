@@ -254,7 +254,52 @@ image: /images/RecompForge.jpeg
 				<script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  const blogPosts = JSON.parse('{{ site.data.blog | jsonify | escape }}');
+  const blogPosts = [
+  {
+    icon: "bi-basket2-fill",
+    color: "var(--primary)",
+    badge: "Nutrition",
+    cls: "",
+    title: "Best Foods for Recomposition",
+    excerpt: "High protein foods for fat loss and muscle gain."
+  },
+
+  {
+    icon: "bi-person-arms-up",
+    color: "var(--accent)",
+    badge: "Training",
+    cls: "blue",
+    title: "Skinny Fat Transformation Guide",
+    excerpt: "Fix skinny fat with smart training and nutrition."
+  },
+
+  {
+    icon: "bi-exclamation-triangle-fill",
+    color: "var(--accent2)",
+    badge: "Mistakes",
+    cls: "orange",
+    title: "Lean Bulk Mistakes",
+    excerpt: "Avoid common bulking mistakes that increase fat gain."
+  },
+
+  {
+    icon: "bi-egg-fill",
+    color: "var(--primary)",
+    badge: "Protein",
+    cls: "",
+    title: "Protein Intake Guide",
+    excerpt: "Learn the ideal protein intake for muscle growth."
+  },
+
+  {
+    icon: "bi-calendar3-week-fill",
+    color: "var(--accent)",
+    badge: "Workout",
+    cls: "blue",
+    title: "Best Workout Split",
+    excerpt: "Discover the best training split for recomposition."
+  }
+];
 
   function getCount() {
     return window.innerWidth <= 768 ? 3 : 4;
