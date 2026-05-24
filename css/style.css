@@ -707,14 +707,18 @@ select.field-input {
 
 .blog-thumb {
   width: 100%;
-  height: 130px;
-  object-fit: cover;
-  background: linear-gradient(135deg, #e8f5ee, #eef4ff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
   flex-shrink: 0;
+  background: #f3f4f6;
+}
+
+.blog-thumb img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 .blog-content {
