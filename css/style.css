@@ -989,13 +989,21 @@ footer {
 
 .breadcrumb-bar span { color: #b0c9bc; }
 
-.article-thumb {
-  width: 100%;
-  height: 200px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #d1fae5 0%, #e0f2fe 60%, #fef9c3 100%);
-  margin-bottom: 28px;
-  border: 1px solid var(--border);
+.article-thumb{
+  width:100%;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  border-radius:16px;
+  margin-bottom:28px;
+  border:1px solid var(--border);
+  background:#f3f4f6;
+}
+
+.article-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
 }
 
 .article-meta {
