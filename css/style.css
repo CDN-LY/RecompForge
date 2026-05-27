@@ -807,25 +807,25 @@ select.field-input {
 }
 
 .pagination .page-link {
-  color: var(--primary)
+  color: var(--primary);
   background: var(--bg-card);
   border: 1px solid var(--border);
 }
 
 .pagination .page-link:hover {
-  color: #fff
+  color: #fff;
   background: var(--primary);
   border-color: var(--primary);
 }
 
 .pagination .page-item.active .page-link {
-  background: var(--primary)
-  border-color: var(--primary)
-  color: #fff !important;
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
 }
 
 .pagination .page-item.disabled .page-link {
-  color: var(--text-muted) !important;
+  color: var(--text-muted);
   background: var(--bg-card2);
   opacity: 0.6;
 }
