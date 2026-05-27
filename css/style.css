@@ -807,16 +807,27 @@ select.field-input {
 }
 
 .pagination .page-link {
-  border-radius: 10px;
-  margin: 0 4px;
-  color: var(--text);
+  color: var(--primary) !important;
+  background: var(--bg-card);
   border: 1px solid var(--border);
 }
 
-.pagination .page-item.active .page-link {
+.pagination .page-link:hover {
+  color: #fff !important;
   background: var(--primary);
   border-color: var(--primary);
-  color: #fff;
+}
+
+.pagination .page-item.active .page-link {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #fff !important;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: var(--text-muted) !important;
+  background: var(--bg-card2);
+  opacity: 0.6;
 }
 
 /* ============================================================
