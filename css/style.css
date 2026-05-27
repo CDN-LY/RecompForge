@@ -806,6 +806,19 @@ select.field-input {
   opacity: .5;
 }
 
+.pagination .page-link {
+  border-radius: 10px;
+  margin: 0 4px;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.pagination .page-item.active .page-link {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
 /* ============================================================
    FAQ
    ============================================================ */
