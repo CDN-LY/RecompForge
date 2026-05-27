@@ -807,20 +807,20 @@ select.field-input {
 }
 
 .pagination .page-link {
-  color: var(--primary) !important;
+  color: var(--primary)
   background: var(--bg-card);
   border: 1px solid var(--border);
 }
 
 .pagination .page-link:hover {
-  color: #fff !important;
+  color: #fff
   background: var(--primary);
   border-color: var(--primary);
 }
 
 .pagination .page-item.active .page-link {
-  background: var(--primary) !important;
-  border-color: var(--primary) !important;
+  background: var(--primary)
+  border-color: var(--primary)
   color: #fff !important;
 }
 
