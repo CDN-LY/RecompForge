@@ -1237,6 +1237,7 @@ footer {
   .toc-card ol         { padding-left: 16px; }
   .toc-card ol li a    { padding: 6px 0; font-size: .85rem; }
 }
+
 /* ============================================================
    AUTHOR BIO CARD
    ============================================================ */
@@ -1248,7 +1249,7 @@ footer {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px 22px;
-  margin: 36px 4px;
+  margin: 36px 0;
   position: relative;
   overflow: hidden;
 }
