@@ -1249,7 +1249,7 @@ footer {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px 22px;
-  margin: 36px 0;
+  margin: 36px 0 56px;
   position: relative;
   overflow: hidden;
 }
