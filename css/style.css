@@ -1285,14 +1285,6 @@ footer {
   display: block;
 }
 
-.author-bio-initials {
-  font-size: .85rem;
-  font-weight: 800;
-  color: var(--primary);
-  letter-spacing: .5px;
-  position: absolute;
-}
-
 .author-bio-content {
   flex: 1;
   min-width: 0;
