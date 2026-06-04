@@ -1248,7 +1248,7 @@ footer {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px 22px;
-  margin: 36px 0;
+  margin: 36px 4px;
   position: relative;
   overflow: hidden;
 }
@@ -1283,6 +1283,14 @@ footer {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.author-bio-initials {
+  font-size: .85rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: .5px;
+  position: absolute;
 }
 
 .author-bio-content {
