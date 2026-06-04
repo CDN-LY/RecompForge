@@ -1237,3 +1237,120 @@ footer {
   .toc-card ol         { padding-left: 16px; }
   .toc-card ol li a    { padding: 6px 0; font-size: .85rem; }
 }
+/* ============================================================
+   AUTHOR BIO CARD
+   ============================================================ */
+.author-bio-card {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 22px;
+  margin: 36px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.author-bio-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--primary), #00d17a);
+  border-radius: 3px 0 0 3px;
+}
+
+.author-bio-avatar {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  border: 2px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.author-bio-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.author-bio-initials {
+  font-size: .85rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: .5px;
+  position: absolute;
+}
+
+.author-bio-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.author-bio-name {
+  font-size: .9rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.author-bio-role {
+  font-size: .74rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  margin-bottom: 10px;
+}
+
+.author-bio-text {
+  font-size: .84rem !important;
+  color: var(--text-muted) !important;
+  line-height: 1.7 !important;
+  margin-bottom: 14px !important;
+}
+
+.author-bio-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.author-bio-link {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: #fff;
+  transition: .2s;
+}
+
+.author-bio-link:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+@media (max-width: 480px) {
+  .author-bio-card {
+    flex-direction: column;
+    gap: 14px;
+  }
+}
