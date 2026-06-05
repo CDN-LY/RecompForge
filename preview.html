@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Advanced Browser Fingerprint</title>
+
+<style>
+body{
+    margin:0;
+    font-family: monospace;
+    background:#0b1220;
+    color:#d1d5db;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+h1{
+    color:#60a5fa;
+    text-align:center;
+}
+
+.card{
+    background:#111827;
+    border:1px solid #1f2937;
+    padding:15px;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+pre{
+    white-space:pre-wrap;
+    word-break:break-word;
+    line-height:1.4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Browser Diagnostic (Pro)</h1>
+
+<div class="card">
+<pre id="out">Loading...</pre>
+</div>
+</div>
+
+<script>
+async function sha256(str){
+    const data = new TextEncoder().encode(str);
+    const hash = await crypto.subtle.digest("SHA-256", data);
+    return [...new Uint8Array(hash)]
+        .map(b => b.toString(16).padStart(2,"0"))
+        .join("");
+}
+
+/* Canvas Fingerprint */
+async function canvasFP(){
+    const c = document.createElement("canvas");
+    const ctx = c.getContext("2d");
+
+    ctx.textBaseline = "top";
+    ctx.font = "16px Arial";
+
+    ctx.fillStyle = "#ff6600";
+    ctx.fillRect(10,10,100,40);
+
+    ctx.fillStyle = "#00ff99";
+    ctx.fillText("Fingerprint Test 🔥", 12, 12);
+
+    const data = c.toDataURL();
+    return {
+        hash: await sha256(data),
+        size: data.length
+    };
+}
+
+/* WebGL Info */
+function webglInfo(){
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+
+    if(!gl){
+        return { supported:false };
+    }
+
+    const ext = gl.getExtension("WEBGL_debug_renderer_info");
+
+    return {
+        supported:true,
+        vendor: ext ? gl.getParameter(ext.UNMASKED_VENDOR_WEBGL) : "hidden",
+        renderer: ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : "hidden",
+        version: gl.getParameter(gl.VERSION),
+        shading: gl.getParameter(gl.SHADING_LANGUAGE_VERSION),
+        maxTexture: gl.getParameter(gl.MAX_TEXTURE_SIZE)
+    };
+}
+
+/* Main */
+(async () => {
+
+const canvas = await canvasFP();
+const webgl = webglInfo();
+
+const info = {
+    browser:{
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        languages: navigator.languages,
+        cookie: navigator.cookieEnabled,
+        online: navigator.onLine,
+        cores: navigator.hardwareConcurrency,
+        memory: navigator.deviceMemory || "N/A",
+        touch: navigator.maxTouchPoints
+    },
+
+    screen:{
+        width: screen.width,
+        height: screen.height,
+        colorDepth: screen.colorDepth,
+        pixelRatio: window.devicePixelRatio,
+        viewport: innerWidth + "x" + innerHeight
+    },
+
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+
+    canvas,
+    webgl
+};
+
+document.getElementById("out").textContent =
+JSON.stringify(info, null, 4);
+
+})();
+</script>
+
+</body>
+</html>
