@@ -1,441 +1,639 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Support Survey</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Support This Website</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
+:root{
+    --primary:#22c55e;
+    --primary-dark:#16a34a;
+    --bg:#f8fafc;
+    --card:#ffffff;
+    --border:#e5e7eb;
+    --text:#0f172a;
+    --muted:#64748b;
+    --shadow:0 12px 35px rgba(15,23,42,.06);
+    --radius:22px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
 body{
-font-family:Arial;
-background:#f5f5f5;
+    font-family:Inter,sans-serif;
+    background:var(--bg);
+    color:var(--text);
 }
 
-.support-box{
-width:350px;
-margin:50px auto;
-background:white;
-padding:25px;
-border-radius:15px;
-text-align:center;
+.page{
+    width:100%;
+    max-width:960px;
+    margin:auto;
+    padding:30px 20px 60px;
 }
 
+/* HEADER */
 
-button{
-background:#2563eb;
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:8px;
-cursor:pointer;
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:55px;
 }
 
+.logo{
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
 
-.modal{
+.logo-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:#dcfce7;
+    color:var(--primary-dark);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+    font-weight:700;
+}
+
+.logo-text h2{
+    font-size:22px;
+    font-weight:700;
+}
+
+.logo-text span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+nav{
+    display:flex;
+    gap:24px;
+}
+
+nav a{
+    cursor:pointer;
+    color:var(--muted);
+    font-size:15px;
+    text-decoration:none;
+    transition:.2s;
+}
+
+nav a:hover{
+    color:var(--primary-dark);
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.badge{
+    display:inline-flex;
+    padding:8px 18px;
+    border-radius:999px;
+    background:#dcfce7;
+    color:var(--primary-dark);
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:48px;
+    margin-bottom:18px;
+}
+
+.hero p{
+    max-width:650px;
+    margin:auto;
+    color:var(--muted);
+    line-height:1.8;
+}
+
+/* SURVEY CARD */
+
+.survey-card{
+    background:var(--card);
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:28px;
+}
+
+#surveyLoading{
+    height:560px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:18px;
+}
+
+.loader{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:4px solid #d1fae5;
+    border-top-color:var(--primary);
+    animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+
+to{
+transform:rotate(360deg);
+}
+
+}
+
+#surveyContainer{
+
 display:none;
+
+}
+
+#surveyContainer iframe{
+
+width:100%;
+height:900px;
+border:none;
+border-radius:18px;
+
+}
+
+.powered{
+
+margin-top:20px;
+text-align:center;
+color:var(--muted);
+font-size:14px;
+
+}
+
+.powered strong{
+
+color:var(--primary-dark);
+
+}
+
+/* FOOTER */
+
+footer{
+
+margin-top:40px;
+text-align:center;
+color:var(--muted);
+font-size:14px;
+
+}
+
+/* OVERLAY */
+
+.overlay{
+
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.6);
-align-items:center;
+background:rgba(15,23,42,.45);
+display:none;
 justify-content:center;
+align-items:center;
+padding:20px;
+z-index:999;
+
 }
 
+.modal{
 
-.modal-box{
-
-background:white;
-width:90%;
+background:#fff;
+width:100%;
 max-width:600px;
-height:600px;
-border-radius:15px;
-overflow:hidden;
+border-radius:24px;
+padding:28px;
+box-shadow:0 25px 60px rgba(0,0,0,.15);
+animation:popup .25s ease;
 
 }
 
+.large{
+
+max-width:700px;
+
+}
+
+@keyframes popup{
+
+from{
+
+opacity:0;
+transform:translateY(15px);
+
+}
+
+to{
+
+opacity:1;
+transform:none;
+
+}
+
+}
+
+.modal-header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+
+}
+
+.modal-header h2{
+
+font-size:26px;
+
+}
 
 .close{
 
-float:right;
-padding:10px;
+border:none;
+background:none;
+font-size:30px;
 cursor:pointer;
+color:#94a3b8;
 
 }
 
+.modal-content{
 
-iframe{
-
-width:100%;
-height:100%;
-border:0;
+color:var(--muted);
+line-height:1.8;
 
 }
 
+/* RECENT SUPPORT */
 
+#recentList{
 
-.support-list{
-
-margin-top:20px;
-
-}
-
-
-
-.user{
-
-padding:10px;
-border-bottom:1px solid #ddd;
+display:flex;
+flex-direction:column;
+gap:14px;
 
 }
 
+.support-item{
 
-.loading{
-
-color:#777;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px 18px;
+border-radius:16px;
+background:#f8fafc;
+border:1px solid #edf2f7;
 
 }
 
+.support-user{
 
-.error{
+display:flex;
+align-items:center;
+gap:12px;
 
-color:red;
+}
+
+.avatar{
+
+width:42px;
+height:42px;
+border-radius:50%;
+background:#dcfce7;
+color:var(--primary-dark);
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:700;
+
+}
+
+.support-info h4{
+
+font-size:15px;
+
+}
+
+.support-info span{
+
+font-size:13px;
+color:var(--muted);
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.header{
+
+flex-direction:column;
+gap:24px;
+
+}
+
+nav{
+
+justify-content:center;
+flex-wrap:wrap;
+
+}
+
+.hero h1{
+
+font-size:34px;
+
+}
+
+.survey-card{
+
+padding:18px;
+
+}
+
+#surveyLoading{
+
+height:420px;
+
+}
+
+#surveyContainer iframe{
+
+height:720px;
+
+}
+
+.modal{
+
+padding:20px;
+
+}
 
 }
 
 </style>
 
 </head>
-
-
 <body>
 
+<div class="page">
 
-<div class="support-box">
+<header class="header">
 
-<h2>Support Website</h2>
+<div class="logo">
 
+<div class="logo-icon">❤</div>
+
+<div class="logo-text">
+
+<h2>Support</h2>
+
+<span>Powered by CPX Research</span>
+
+</div>
+
+</div>
+
+<nav>
+
+<a id="privacyBtn">Privacy</a>
+
+<a id="termsBtn">Terms</a>
+
+<a id="recentBtn">Recent Support</a>
+
+</nav>
+
+</header>
+
+<main>
+
+<section class="hero">
+
+<div class="badge">
+
+Support This Website
+
+</div>
+
+<h1>
+
+Complete a Survey
+
+</h1>
 
 <p>
-Complete a survey to support this website
+
+Complete a short survey to help keep this website free.
+
+Your support is greatly appreciated.
+
 </p>
 
+</section>
 
-<button onclick="openSurvey()">
-Start Survey
+<section class="survey-card">
+
+<div id="surveyLoading">
+
+<div class="loader"></div>
+
+<p>
+
+Loading surveys...
+
+</p>
+
+</div>
+
+<div id="surveyContainer">
+
+<!--
+CPX iframe এখানে আসবে
+-->
+
+</div>
+
+<div class="powered">
+
+Powered by
+
+<strong>
+
+CPX Research
+
+</strong>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+
+<p>
+
+© 2026 RecompForge
+
+</p>
+
+</footer>
+
+</div>
+
+<!-- Privacy -->
+
+<div class="overlay" id="privacyModal">
+
+<div class="modal">
+
+<div class="modal-header">
+
+<h2>
+
+Privacy Policy
+
+</h2>
+
+<button class="close">
+
+×
+
 </button>
 
-
-
-<h3>
-Recent Support
-</h3>
-
-
-<div id="recent">
-
-<div class="loading">
-Loading supporters...
 </div>
 
+<div class="modal-content">
+
+<p>
+
+Privacy content...
+
+</p>
 
 </div>
 
+</div>
 
 </div>
 
+<!-- Terms -->
 
+<div class="overlay" id="termsModal">
 
+<div class="modal">
 
+<div class="modal-header">
 
-<!-- MODAL -->
+<h2>
 
+Terms of Service
 
-<div class="modal" id="surveyModal">
+</h2>
 
+<button class="close">
 
-<div class="modal-box">
+×
 
-
-<div class="close" onclick="closeSurvey()">
-✖
-</div>
-
-
-<div id="cpxContainer">
-
-
-</div>
-
-
+</button>
 
 </div>
 
+<div class="modal-content">
+
+<p>
+
+Terms content...
+
+</p>
 
 </div>
 
+</div>
 
+</div>
 
+<!-- Recent Support -->
 
+<div class="overlay" id="recentModal">
+
+<div class="modal large">
+
+<div class="modal-header">
+
+<h2>
+
+❤️ Recent Support
+
+</h2>
+
+<button class="close">
+
+×
+
+</button>
+
+</div>
+
+<div class="modal-content">
+
+<div id="recentLoading">
+
+Loading...
+
+</div>
+
+<div id="recentList">
+
+<!--
+
+Worker API থেকে Load হবে
+
+-->
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 <script>
 
-
-// =====================
-// Local User ID
-// =====================
-
-
-function getUserID(){
-
-
-let id =
-localStorage.getItem(
-"support_user_id"
-);
-
-
-
-if(!id){
-
-
-id =
-"support_user_" +
-Math.random()
-.toString(36)
-.substring(2,12);
-
-
-
-localStorage.setItem(
-"support_user_id",
-id
-);
-
-
-
-}
-
-
-return id;
-
-
-}
-
-
-
-
-const userID=getUserID();
-
-console.log(userID);
-
-
-
-
-
-// =====================
-// Modal Open
-// =====================
-
-
-function openSurvey(){
-
-
-document
-.getElementById("surveyModal")
-.style.display="flex";
-
-
-
-generateCPX();
-
-
-
-}
-
-
-
-
-// Close
-
-function closeSurvey(){
-
-document
-.getElementById("surveyModal")
-.style.display="none";
-
-
-}
-
-
-
-
-// =====================
-// CPX iframe Generate
-// =====================
-
-
-
-function generateCPX(){
-
-
-
-let container=
-document.getElementById(
-"cpxContainer"
-);
-
-
-
-container.innerHTML="";
-
-
-let iframe =
-document.createElement(
-"iframe"
-);
-
-
-
-iframe.src=
-"https://offers.cpx-research.com/index.php?"+
-"app_id=34411"+
-"&ext_user_id="+userID;
-
-
-
-container.appendChild(
-iframe
-);
-
-
-
-}
-
-
-
-
-
-
-
-// =====================
-// Recent Support Fetch
-// =====================
-
-
-
-async function loadRecent(){
-
-
-let box=
-document.getElementById(
-"recent"
-);
-
-
-
-try{
-
-
-box.innerHTML=
-`
-<div class="loading">
-Loading...
-</div>
-`;
-
-
-
-let res =
-await fetch(
-"/api/recent"
-);
-
-
-
-if(!res.ok)
-throw "API Error";
-
-
-
-let data =
-await res.json();
-
-
-
-box.innerHTML="";
-
-
-
-data.forEach(
-user=>{
-
-
-box.innerHTML +=
-`
-
-<div class="user">
-
-${user.flag || "🌎"}
-
-<b>
-${user.name}
-</b>
-
-<br>
-
-<small>
-${user.time}
-</small>
-
-
-</div>
-
-
-`;
-
-
-
-});
-
-
-}
-catch(e){
-
-
-box.innerHTML=
-`
-<div class="error">
-Unable to load supporters
-</div>
-`;
-
-
-
-}
-
-
-
-}
-
-
-
-
-// Initial Load
-
-loadRecent();
-
-
-
-// Auto Refresh every 30 sec
-
-
-setInterval(
-loadRecent,
-30000
-);
-
-
+/* PART 3 JAVASCRIPT */
 
 </script>
-
 
 </body>
 </html>
