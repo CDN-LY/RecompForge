@@ -631,7 +631,542 @@ Worker API থেকে Load হবে
 
 <script>
 
-/* PART 3 JAVASCRIPT */
+/* ===========================
+   PART 3A
+   Modal + Local User ID + CPX
+=========================== */
+
+const APP_ID = "34411";
+
+// Leave empty if hashing isn't enabled
+const SECURE_HASH = "";
+
+// Anonymous username
+const USERNAME = "Anonymous";
+
+// Optional email
+const EMAIL = "";
+
+const STORAGE_KEY = "support_user_id";
+
+let USER_ID = "";
+
+/* ----------------------------
+   Create Local User ID
+---------------------------- */
+
+function generateUserId() {
+
+    return "support_user_" +
+        Math.random().toString(36).substring(2,10) +
+        Date.now().toString(36);
+
+}
+
+function getUserId(){
+
+    let id = localStorage.getItem(STORAGE_KEY);
+
+    if(!id){
+
+        id = generateUserId();
+
+        localStorage.setItem(STORAGE_KEY,id);
+
+    }
+
+    USER_ID=id;
+
+    return id;
+
+}
+
+/* ----------------------------
+   Build CPX URL
+---------------------------- */
+
+function buildSurveyURL(){
+
+    const params = new URLSearchParams();
+
+    params.set("app_id",APP_ID);
+
+    params.set("ext_user_id",USER_ID);
+
+    params.set("username",USERNAME);
+
+    if(EMAIL){
+
+        params.set("email",EMAIL);
+
+    }
+
+    // Only if CPX enables hashing
+    if(SECURE_HASH){
+
+        params.set("secure_hash","YOUR_MD5_HASH");
+
+    }
+
+    return "https://offers.cpx-research.com/index.php?"+params.toString();
+
+}
+
+/* ----------------------------
+   Load Survey
+---------------------------- */
+
+function loadSurvey(){
+
+    const iframe=document.createElement("iframe");
+
+    iframe.src=buildSurveyURL();
+
+    iframe.loading="lazy";
+
+    iframe.referrerPolicy="strict-origin-when-cross-origin";
+
+    iframe.allowFullscreen=true;
+
+    iframe.onload=function(){
+
+        document.getElementById("surveyLoading").style.display="none";
+
+        document.getElementById("surveyContainer").style.display="block";
+
+    };
+
+    document.getElementById("surveyContainer").appendChild(iframe);
+
+}
+
+/* ----------------------------
+   Modal
+---------------------------- */
+
+function openModal(id){
+
+    document.getElementById(id).style.display="flex";
+
+}
+
+function closeModal(id){
+
+    document.getElementById(id).style.display="none";
+
+}
+
+document.getElementById("privacyBtn")
+.onclick=()=>openModal("privacyModal");
+
+document.getElementById("termsBtn")
+.onclick=()=>openModal("termsModal");
+
+document.getElementById("recentBtn")
+.onclick=()=>openModal("recentModal");
+
+document.querySelectorAll(".close")
+.forEach(btn=>{
+
+    btn.onclick=function(){
+
+        btn.closest(".overlay").style.display="none";
+
+    }
+
+});
+
+window.onclick=function(e){
+
+    document.querySelectorAll(".overlay").forEach(modal=>{
+
+        if(e.target===modal){
+
+            modal.style.display="none";
+
+        }
+
+    });
+
+};
+
+/* ----------------------------
+   Init
+---------------------------- */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    getUserId();
+
+    loadSurvey();
+
+});
+
+/* ===========================
+   PART 3B
+   Recent Support
+=========================== */
+
+const API_BASE = "https://support-worker.asifiqbal2893.workers.dev";
+
+/* ----------------------------
+   Country Flag
+---------------------------- */
+
+function countryToFlag(countryCode){
+
+    if(!countryCode) return "🌍";
+
+    return countryCode
+        .toUpperCase()
+        .replace(/./g,char =>
+            String.fromCodePoint(
+                127397 + char.charCodeAt()
+            )
+        );
+
+}
+
+/* ----------------------------
+   Time Ago
+---------------------------- */
+
+function timeAgo(dateString){
+
+    const now = Date.now();
+
+    const then = new Date(dateString).getTime();
+
+    const diff = Math.floor((now-then)/1000);
+
+    if(diff < 60) return "Just now";
+
+    if(diff < 3600)
+        return Math.floor(diff/60)+" min ago";
+
+    if(diff < 86400)
+        return Math.floor(diff/3600)+" hr ago";
+
+    return Math.floor(diff/86400)+" day ago";
+
+}
+
+/* ----------------------------
+   Render Supporters
+---------------------------- */
+
+function renderRecentSupport(data){
+
+    const list =
+    document.getElementById("recentList");
+
+    const loading =
+    document.getElementById("recentLoading");
+
+    loading.style.display="none";
+
+    list.innerHTML="";
+
+    if(!data || data.length===0){
+
+        list.innerHTML=`
+        <div class="support-item">
+            No supporters yet
+        </div>
+        `;
+
+        return;
+    }
+
+    data.forEach(item=>{
+
+        const flag =
+        countryToFlag(item.country);
+
+        const shortId =
+        item.user_id
+        ? item.user_id.replace(
+            "support_user_",""
+          ).substring(0,6)
+        : "User";
+
+        const html=`
+        <div class="support-item">
+
+            <div class="support-user">
+
+                <div class="avatar">
+                    ${flag}
+                </div>
+
+                <div class="support-info">
+
+                    <h4>
+                        User-${shortId}
+                    </h4>
+
+                    <span>
+                        ${item.country || "Unknown"}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div>
+
+                ${timeAgo(item.created_at)}
+
+            </div>
+
+        </div>
+        `;
+
+        list.insertAdjacentHTML(
+            "beforeend",
+            html
+        );
+
+    });
+
+}
+
+/* ----------------------------
+   Load Recent
+---------------------------- */
+
+async function loadRecentSupport(){
+
+    try{
+
+        const loading =
+        document.getElementById(
+            "recentLoading"
+        );
+
+        loading.style.display="block";
+
+        const res =
+        await fetch(
+            API_BASE+"/api/recent"
+        );
+
+        if(!res.ok){
+
+            throw new Error(
+                "API Error"
+            );
+
+        }
+
+        const data =
+        await res.json();
+
+        renderRecentSupport(data);
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+        document
+        .getElementById("recentLoading")
+        .innerHTML=`
+        Failed to load supporters
+        `;
+
+    }
+
+}
+
+/* ----------------------------
+   Load when modal opens
+---------------------------- */
+
+document
+.getElementById("recentBtn")
+.addEventListener("click",()=>{
+
+    loadRecentSupport();
+
+});
+
+/* ===========================
+   PART 3C
+   Production Finish
+=========================== */
+
+let refreshTimer = null;
+
+/* ----------------------------
+   Auto Refresh
+---------------------------- */
+
+function startAutoRefresh(){
+
+    if(refreshTimer){
+
+        clearInterval(refreshTimer);
+
+    }
+
+    refreshTimer = setInterval(()=>{
+
+        loadRecentSupport();
+
+    },30000);
+
+}
+
+/* ----------------------------
+   Page Visibility
+---------------------------- */
+
+document.addEventListener(
+
+    "visibilitychange",
+
+    ()=>{
+
+        if(document.hidden){
+
+            clearInterval(refreshTimer);
+
+        }else{
+
+            loadRecentSupport();
+
+            startAutoRefresh();
+
+        }
+
+    }
+
+);
+
+/* ----------------------------
+   Network Status
+---------------------------- */
+
+window.addEventListener(
+
+    "offline",
+
+    ()=>{
+
+        document.getElementById(
+
+            "recentLoading"
+
+        ).innerHTML="No Internet Connection";
+
+    }
+
+);
+
+window.addEventListener(
+
+    "online",
+
+    ()=>{
+
+        loadRecentSupport();
+
+    }
+
+);
+
+/* ----------------------------
+   Manual Refresh
+---------------------------- */
+
+async function refreshSupportList(){
+
+    await loadRecentSupport();
+
+}
+
+/* ----------------------------
+   Survey Loaded
+---------------------------- */
+
+window.addEventListener(
+
+    "message",
+
+    function(event){
+
+        // CPX future message support
+
+        refreshSupportList();
+
+    }
+
+);
+
+/* ----------------------------
+   Initial Load
+---------------------------- */
+
+window.addEventListener(
+
+    "load",
+
+    ()=>{
+
+        getUserId();
+
+        loadSurvey();
+
+        loadRecentSupport();
+
+        startAutoRefresh();
+
+    }
+
+);
+
+/* ----------------------------
+   Debug
+---------------------------- */
+
+console.log("Support App Ready");
+
+console.log("User ID:",USER_ID);
+
+console.log("Worker:",API_BASE);
+
+function loadSurvey(){
+
+    const container = document.getElementById("surveyContainer");
+
+    container.innerHTML = "";
+
+    const iframe = document.createElement("iframe");
+
+    iframe.src =
+        "https://offers.cpx-research.com/index.php" +
+        "?app_id=34411" +
+        "&ext_user_id=" + encodeURIComponent(USER_ID) +
+        "&username=Anonymous";
+
+    iframe.width = "100%";
+    iframe.height = "2000";
+    iframe.frameBorder = "0";
+    iframe.loading = "lazy";
+
+    iframe.onload = function(){
+
+        document.getElementById("surveyLoading").style.display="none";
+
+        container.style.display="block";
+
+    };
+
+    container.appendChild(iframe);
+
+}
 
 </script>
 
