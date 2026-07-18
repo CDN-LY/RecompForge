@@ -630,380 +630,422 @@ Worker API থেকে Load হবে
 </div>
 
 <script>
+/* ==========================================
+   SUPPORT APP
+   PART 1 - CORE
+========================================== */
 
-/* ===========================
-   PART 3A
-   Modal + Local User ID + CPX
-=========================== */
+const CONFIG = {
+    APP_ID: "34411",
+    API: "https://support-worker.asifiqbal2893.workers.dev",
+    STORAGE_KEY: "support_user_id",
+    USERNAME: "Anonymous",
+    EMAIL: ""
+};
 
-const APP_ID = "34411";
+const App = {
 
-// Leave empty if hashing isn't enabled
-const SECURE_HASH = "";
+    userId: null,
 
-// Anonymous username
-const USERNAME = "Anonymous";
+    init() {
 
-// Optional email
-const EMAIL = "";
+        this.userId = this.getUserId();
 
-const STORAGE_KEY = "support_user_id";
+        console.log("User:", this.userId);
 
-let USER_ID = "";
+        this.bindEvents();
 
-/* ----------------------------
-   Create Local User ID
----------------------------- */
+    },
 
-function generateUserId() {
+    generateId() {
 
-    return "support_user_" +
-        Math.random().toString(36).substring(2,10) +
-        Date.now().toString(36);
+        return "support_user_" +
+            Math.random().toString(36).substring(2,10) +
+            Date.now().toString(36);
 
-}
+    },
 
-function getUserId(){
+    getUserId() {
 
-    let id = localStorage.getItem(STORAGE_KEY);
+        let id = localStorage.getItem(CONFIG.STORAGE_KEY);
 
-    if(!id){
+        if (!id) {
 
-        id = generateUserId();
+            id = this.generateId();
 
-        localStorage.setItem(STORAGE_KEY,id);
-
-    }
-
-    USER_ID=id;
-
-    return id;
-
-}
-
-/* ----------------------------
-   Build CPX URL
----------------------------- */
-
-function buildSurveyURL(){
-
-    const params = new URLSearchParams();
-
-    params.set("app_id",APP_ID);
-
-    params.set("ext_user_id",USER_ID);
-
-    params.set("username",USERNAME);
-
-    if(EMAIL){
-
-        params.set("email",EMAIL);
-
-    }
-
-    // Only if CPX enables hashing
-    if(SECURE_HASH){
-
-        params.set("secure_hash","YOUR_MD5_HASH");
-
-    }
-
-    return "https://offers.cpx-research.com/index.php?"+params.toString();
-
-}
-
-/* ----------------------------
-   Load Survey
----------------------------- */
-
-function loadSurvey(){
-
-    const iframe=document.createElement("iframe");
-
-    iframe.src=buildSurveyURL();
-
-    iframe.loading="lazy";
-
-    iframe.referrerPolicy="strict-origin-when-cross-origin";
-
-    iframe.allowFullscreen=true;
-
-    iframe.onload=function(){
-
-        document.getElementById("surveyLoading").style.display="none";
-
-        document.getElementById("surveyContainer").style.display="block";
-
-    };
-
-    document.getElementById("surveyContainer").appendChild(iframe);
-
-}
-
-/* ----------------------------
-   Modal
----------------------------- */
-
-function openModal(id){
-
-    document.getElementById(id).style.display="flex";
-
-}
-
-function closeModal(id){
-
-    document.getElementById(id).style.display="none";
-
-}
-
-document.getElementById("privacyBtn")
-.onclick=()=>openModal("privacyModal");
-
-document.getElementById("termsBtn")
-.onclick=()=>openModal("termsModal");
-
-document.getElementById("recentBtn")
-.onclick=()=>openModal("recentModal");
-
-document.querySelectorAll(".close")
-.forEach(btn=>{
-
-    btn.onclick=function(){
-
-        btn.closest(".overlay").style.display="none";
-
-    }
-
-});
-
-window.onclick=function(e){
-
-    document.querySelectorAll(".overlay").forEach(modal=>{
-
-        if(e.target===modal){
-
-            modal.style.display="none";
+            localStorage.setItem(CONFIG.STORAGE_KEY, id);
 
         }
 
-    });
+        return id;
+
+    },
+
+    buildSurveyURL() {
+
+        const url = new URL(
+            "https://offers.cpx-research.com/index.php"
+        );
+
+        url.searchParams.set("app_id", CONFIG.APP_ID);
+        url.searchParams.set("ext_user_id", this.userId);
+        url.searchParams.set("username", CONFIG.USERNAME);
+
+        if (CONFIG.EMAIL !== "") {
+
+            url.searchParams.set(
+                "email",
+                CONFIG.EMAIL
+            );
+
+        }
+
+        return url.toString();
+
+    },
+
+    openModal(id) {
+
+        document
+            .getElementById(id)
+            .style.display = "flex";
+
+    },
+
+    closeModal(id) {
+
+        document
+            .getElementById(id)
+            .style.display = "none";
+
+    },
+
+    bindEvents() {
+
+        document
+            .getElementById("privacyBtn")
+            ?.addEventListener("click", () => {
+
+                this.openModal("privacyModal");
+
+            });
+
+        document
+            .getElementById("termsBtn")
+            ?.addEventListener("click", () => {
+
+                this.openModal("termsModal");
+
+            });
+
+        document
+            .getElementById("recentBtn")
+            ?.addEventListener("click", () => {
+
+                this.openModal("recentModal");
+
+                if (typeof loadRecentSupport === "function") {
+
+                    loadRecentSupport();
+
+                }
+
+            });
+
+        document
+            .querySelectorAll(".close")
+            .forEach(btn => {
+
+                btn.addEventListener("click", () => {
+
+                    btn.closest(".overlay").style.display = "none";
+
+                });
+
+            });
+
+        window.addEventListener("click", e => {
+
+            document
+                .querySelectorAll(".overlay")
+                .forEach(modal => {
+
+                    if (e.target === modal) {
+
+                        modal.style.display = "none";
+
+                    }
+
+                });
+
+        });
+
+    }
 
 };
 
-/* ----------------------------
-   Init
----------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener("DOMContentLoaded",()=>{
-
-    getUserId();
-
-    loadSurvey();
+    App.init();
 
 });
 
-/* ===========================
-   PART 3B
-   Recent Support
-=========================== */
+/* ==========================================
+   SUPPORT APP
+   PART 2 - SURVEY
+========================================== */
 
-const API_BASE = "https://support-worker.asifiqbal2893.workers.dev";
+function loadSurvey() {
 
-/* ----------------------------
-   Country Flag
----------------------------- */
+    const loading =
+        document.getElementById("surveyLoading");
 
-function countryToFlag(countryCode){
+    const container =
+        document.getElementById("surveyContainer");
 
-    if(!countryCode) return "🌍";
+    if (!loading || !container) return;
 
-    return countryCode
+    loading.style.display = "flex";
+    container.style.display = "none";
+    container.innerHTML = "";
+
+    const iframe = document.createElement("iframe");
+
+    iframe.src = App.buildSurveyURL();
+
+    iframe.style.width = "100%";
+    iframe.style.height = "2000px";
+    iframe.style.border = "0";
+    iframe.style.borderRadius = "18px";
+
+    iframe.loading = "eager";
+
+    iframe.referrerPolicy =
+        "strict-origin-when-cross-origin";
+
+    // যদি onload fire হয়
+    iframe.onload = () => {
+
+        loading.style.display = "none";
+
+        container.style.display = "block";
+
+    };
+
+    // Backup timeout (CPX কখনও onload দেয় না)
+    setTimeout(() => {
+
+        if (container.style.display !== "block") {
+
+            loading.style.display = "none";
+
+            container.style.display = "block";
+
+        }
+
+    }, 4000);
+
+    iframe.onerror = () => {
+
+        loading.innerHTML = `
+            <div style="text-align:center">
+                <h3>Unable to load survey</h3>
+                <p>Please refresh and try again.</p>
+            </div>
+        `;
+
+    };
+
+    container.appendChild(iframe);
+
+}
+
+/* ==========================================
+   START SURVEY
+========================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    setTimeout(() => {
+
+        loadSurvey();
+
+    }, 300);
+
+});
+
+/* ==========================================
+   SUPPORT APP
+   PART 3 - RECENT SUPPORT
+========================================== */
+
+let refreshTimer = null;
+
+/* ---------- Country Flag ---------- */
+
+function countryFlag(code){
+
+    if(!code) return "🌍";
+
+    return code
         .toUpperCase()
-        .replace(/./g,char =>
+        .replace(/./g,c=>
             String.fromCodePoint(
-                127397 + char.charCodeAt()
+                127397+c.charCodeAt()
             )
         );
 
 }
 
-/* ----------------------------
-   Time Ago
----------------------------- */
+/* ---------- Time Ago ---------- */
 
-function timeAgo(dateString){
+function timeAgo(date){
 
-    const now = Date.now();
+    const sec=Math.floor(
+        (Date.now()-new Date(date))/1000
+    );
 
-    const then = new Date(dateString).getTime();
+    if(sec<60) return "Just now";
 
-    const diff = Math.floor((now-then)/1000);
+    if(sec<3600)
+        return Math.floor(sec/60)+" min ago";
 
-    if(diff < 60) return "Just now";
+    if(sec<86400)
+        return Math.floor(sec/3600)+" hr ago";
 
-    if(diff < 3600)
-        return Math.floor(diff/60)+" min ago";
-
-    if(diff < 86400)
-        return Math.floor(diff/3600)+" hr ago";
-
-    return Math.floor(diff/86400)+" day ago";
+    return Math.floor(sec/86400)+" day ago";
 
 }
 
-/* ----------------------------
-   Render Supporters
----------------------------- */
+/* ---------- Render ---------- */
 
-function renderRecentSupport(data){
+function renderSupport(list){
 
-    const list =
-    document.getElementById("recentList");
+    const box=document.getElementById("recentList");
 
-    const loading =
-    document.getElementById("recentLoading");
+    const loading=document.getElementById("recentLoading");
+
+    if(!box) return;
 
     loading.style.display="none";
 
-    list.innerHTML="";
+    box.innerHTML="";
 
-    if(!data || data.length===0){
+    if(list.length===0){
 
-        list.innerHTML=`
+        box.innerHTML=`
         <div class="support-item">
-            No supporters yet
+            No supporters yet ❤️
         </div>
         `;
 
         return;
+
     }
 
-    data.forEach(item=>{
+    list.forEach(item=>{
 
-        const flag =
-        countryToFlag(item.country);
+        let shortId="Guest";
 
-        const shortId =
-        item.user_id
-        ? item.user_id.replace(
-            "support_user_",""
-          ).substring(0,6)
-        : "User";
+        if(item.user_id){
 
-        const html=`
-        <div class="support-item">
+            shortId=item.user_id
+            .replace("support_user_","")
+            .substring(0,6);
 
-            <div class="support-user">
+        }
 
-                <div class="avatar">
-                    ${flag}
-                </div>
+        box.insertAdjacentHTML(
 
-                <div class="support-info">
-
-                    <h4>
-                        User-${shortId}
-                    </h4>
-
-                    <span>
-                        ${item.country || "Unknown"}
-                    </span>
-
-                </div>
-
-            </div>
-
-            <div>
-
-                ${timeAgo(item.created_at)}
-
-            </div>
-
-        </div>
-        `;
-
-        list.insertAdjacentHTML(
             "beforeend",
-            html
+
+            `
+            <div class="support-item">
+
+                <div class="support-user">
+
+                    <div class="avatar">
+
+                        ${countryFlag(item.country)}
+
+                    </div>
+
+                    <div class="support-info">
+
+                        <h4>User-${shortId}</h4>
+
+                        <span>
+
+                            ${item.country || "Unknown"}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    ${timeAgo(item.created_at)}
+
+                </div>
+
+            </div>
+            `
+
         );
 
     });
 
 }
 
-/* ----------------------------
-   Load Recent
----------------------------- */
+/* ---------- API ---------- */
 
 async function loadRecentSupport(){
 
-    try{
+    const loading=document.getElementById("recentLoading");
 
-        const loading =
-        document.getElementById(
-            "recentLoading"
-        );
+    if(loading){
 
         loading.style.display="block";
 
-        const res =
-        await fetch(
-            API_BASE+"/api/recent"
+        loading.innerHTML="Loading...";
+
+    }
+
+    try{
+
+        const res=await fetch(
+
+            CONFIG.API+"/api/recent"
+
         );
 
         if(!res.ok){
 
-            throw new Error(
-                "API Error"
-            );
+            throw new Error("API Error");
 
         }
 
-        const data =
-        await res.json();
+        const data=await res.json();
 
-        renderRecentSupport(data);
+        renderSupport(data);
 
     }
 
-    catch(err){
+    catch(e){
 
-        console.error(err);
+        console.error(e);
 
-        document
-        .getElementById("recentLoading")
-        .innerHTML=`
-        Failed to load supporters
-        `;
+        loading.innerHTML="Failed to load.";
 
     }
 
 }
 
-/* ----------------------------
-   Load when modal opens
----------------------------- */
+/* ---------- Refresh ---------- */
 
-document
-.getElementById("recentBtn")
-.addEventListener("click",()=>{
-
-    loadRecentSupport();
-
-});
-
-/* ===========================
-   PART 3C
-   Production Finish
-=========================== */
-
-let refreshTimer = null;
-
-/* ----------------------------
-   Auto Refresh
----------------------------- */
-
-function startAutoRefresh(){
+function startRefresh(){
 
     if(refreshTimer){
 
@@ -1011,17 +1053,88 @@ function startAutoRefresh(){
 
     }
 
-    refreshTimer = setInterval(()=>{
+    refreshTimer=setInterval(
 
-        loadRecentSupport();
+        loadRecentSupport,
 
-    },30000);
+        30000
+
+    );
 
 }
 
-/* ----------------------------
-   Page Visibility
----------------------------- */
+/* ---------- Recent Button ---------- */
+
+document
+.getElementById("recentBtn")
+.addEventListener(
+
+    "click",
+
+    ()=>{
+
+        loadRecentSupport();
+
+    }
+
+);
+
+/* ==========================================
+   SUPPORT APP
+   PART 4 - FINAL
+========================================== */
+
+function refreshSupport(){
+
+    loadRecentSupport();
+
+}
+
+/* ---------- Survey Message ---------- */
+
+window.addEventListener(
+
+    "message",
+
+    function(event){
+
+        // Future CPX Message Support
+
+        refreshSupport();
+
+    }
+
+);
+
+/* ---------- Internet ---------- */
+
+window.addEventListener(
+
+    "online",
+
+    ()=>{
+
+        console.log("Online");
+
+        loadRecentSupport();
+
+    }
+
+);
+
+window.addEventListener(
+
+    "offline",
+
+    ()=>{
+
+        console.log("Offline");
+
+    }
+
+);
+
+/* ---------- Visibility ---------- */
 
 document.addEventListener(
 
@@ -1031,13 +1144,19 @@ document.addEventListener(
 
         if(document.hidden){
 
-            clearInterval(refreshTimer);
+            if(refreshTimer){
 
-        }else{
+                clearInterval(refreshTimer);
+
+            }
+
+        }
+
+        else{
 
             loadRecentSupport();
 
-            startAutoRefresh();
+            startRefresh();
 
         }
 
@@ -1045,69 +1164,7 @@ document.addEventListener(
 
 );
 
-/* ----------------------------
-   Network Status
----------------------------- */
-
-window.addEventListener(
-
-    "offline",
-
-    ()=>{
-
-        document.getElementById(
-
-            "recentLoading"
-
-        ).innerHTML="No Internet Connection";
-
-    }
-
-);
-
-window.addEventListener(
-
-    "online",
-
-    ()=>{
-
-        loadRecentSupport();
-
-    }
-
-);
-
-/* ----------------------------
-   Manual Refresh
----------------------------- */
-
-async function refreshSupportList(){
-
-    await loadRecentSupport();
-
-}
-
-/* ----------------------------
-   Survey Loaded
----------------------------- */
-
-window.addEventListener(
-
-    "message",
-
-    function(event){
-
-        // CPX future message support
-
-        refreshSupportList();
-
-    }
-
-);
-
-/* ----------------------------
-   Initial Load
----------------------------- */
+/* ---------- Startup ---------- */
 
 window.addEventListener(
 
@@ -1115,59 +1172,29 @@ window.addEventListener(
 
     ()=>{
 
-        getUserId();
+        console.log("Support App Started");
+
+        console.log("User ID:",App.userId);
+
+        console.log("API:",CONFIG.API);
 
         loadSurvey();
 
         loadRecentSupport();
 
-        startAutoRefresh();
+        startRefresh();
 
     }
 
 );
 
-/* ----------------------------
-   Debug
----------------------------- */
+/* ---------- Debug ---------- */
 
-console.log("Support App Ready");
+window.App = App;
 
-console.log("User ID:",USER_ID);
+window.loadSurvey = loadSurvey;
 
-console.log("Worker:",API_BASE);
-
-function loadSurvey(){
-
-    const container = document.getElementById("surveyContainer");
-
-    container.innerHTML = "";
-
-    const iframe = document.createElement("iframe");
-
-    iframe.src =
-        "https://offers.cpx-research.com/index.php" +
-        "?app_id=34411" +
-        "&ext_user_id=" + encodeURIComponent(USER_ID) +
-        "&username=Anonymous";
-
-    iframe.width = "100%";
-    iframe.height = "2000";
-    iframe.frameBorder = "0";
-    iframe.loading = "lazy";
-
-    iframe.onload = function(){
-
-        document.getElementById("surveyLoading").style.display="none";
-
-        container.style.display="block";
-
-    };
-
-    container.appendChild(iframe);
-
-}
-
+window.loadRecentSupport = loadRecentSupport;
 </script>
 
 </body>
