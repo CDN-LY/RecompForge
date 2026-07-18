@@ -589,7 +589,7 @@
 ================================================================ */
 const CONFIG = {
   CPX_APP_ID: "34411",
-  CPX_BASE_URL: "https://offers.cpx-research.com/index.php",
+  CPX_BASE_URL: "https://offers.cpx-research.com",
   WORKER_BASE_URL: "https://YOUR-WORKER-SUBDOMAIN.workers.dev", // <-- replace with your deployed Worker URL
   USER_ID_STORAGE_KEY: "support_user_id",
   SURVEY_LOAD_TIMEOUT_MS: 12000
@@ -627,7 +627,6 @@ function buildSurveyUrl(){
   const params = new URLSearchParams({
     app_id: CONFIG.CPX_APP_ID,
     ext_user_id: USER_ID,
-    username: "Anonymous"
   });
   return `${CONFIG.CPX_BASE_URL}?${params.toString()}`;
 }
