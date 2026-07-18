@@ -1,1200 +1,780 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Support This Website</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>RecompForge Support — Help Keep This Site Free</title>
+<meta name="description" content="Support RecompForge by completing a short survey. No payment required, just a few minutes of your time.">
 
 <style>
-
-:root{
-    --primary:#22c55e;
-    --primary-dark:#16a34a;
-    --bg:#f8fafc;
+  /* ============================================================
+     ROOT / THEME VARIABLES
+  ============================================================ */
+  :root{
+    --green:#1db954;
+    --green-dark:#169c46;
+    --green-light:#e7faf0;
+    --bg:#f5f7f8;
     --card:#ffffff;
-    --border:#e5e7eb;
-    --text:#0f172a;
-    --muted:#64748b;
-    --shadow:0 12px 35px rgba(15,23,42,.06);
-    --radius:22px;
-}
+    --text:#1b1f23;
+    --text-soft:#5f6b76;
+    --border:#e7ebee;
+    --shadow: 0 10px 30px rgba(20,30,40,0.08);
+    --shadow-lg: 0 20px 50px rgba(20,30,40,0.12);
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+    --maxw: 860px;
+  }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:Inter,sans-serif;
-    background:var(--bg);
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 50% -200px, var(--green-light), transparent),
+      var(--bg);
     color:var(--text);
-}
-
-.page{
-    width:100%;
-    max-width:960px;
-    margin:auto;
-    padding:30px 20px 60px;
-}
-
-/* HEADER */
-
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:55px;
-}
-
-.logo{
-    display:flex;
-    gap:15px;
-    align-items:center;
-}
-
-.logo-icon{
-    width:48px;
-    height:48px;
-    border-radius:14px;
-    background:#dcfce7;
-    color:var(--primary-dark);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:22px;
-    font-weight:700;
-}
-
-.logo-text h2{
-    font-size:22px;
-    font-weight:700;
-}
-
-.logo-text span{
-    color:var(--muted);
-    font-size:13px;
-}
-
-nav{
-    display:flex;
-    gap:24px;
-}
-
-nav a{
-    cursor:pointer;
-    color:var(--muted);
-    font-size:15px;
-    text-decoration:none;
-    transition:.2s;
-}
-
-nav a:hover{
-    color:var(--primary-dark);
-}
-
-/* HERO */
-
-.hero{
-    text-align:center;
-    margin-bottom:40px;
-}
-
-.badge{
-    display:inline-flex;
-    padding:8px 18px;
-    border-radius:999px;
-    background:#dcfce7;
-    color:var(--primary-dark);
-    font-weight:600;
-    margin-bottom:20px;
-}
-
-.hero h1{
-    font-size:48px;
-    margin-bottom:18px;
-}
-
-.hero p{
-    max-width:650px;
-    margin:auto;
-    color:var(--muted);
-    line-height:1.8;
-}
-
-/* SURVEY CARD */
-
-.survey-card{
-    background:var(--card);
-    border-radius:var(--radius);
-    border:1px solid var(--border);
-    box-shadow:var(--shadow);
-    padding:28px;
-}
-
-#surveyLoading{
-    height:560px;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+    min-height:100vh;
     display:flex;
     flex-direction:column;
-    justify-content:center;
+  }
+  a{color:var(--green-dark);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  img{max-width:100%;display:block;}
+
+  .wrap{
+    width:100%;
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 20px;
+  }
+
+  /* ============================================================
+     HEADER
+  ============================================================ */
+  header.site-header{
+    padding:40px 0 20px;
+  }
+  .brand{
+    display:flex;
     align-items:center;
-    gap:18px;
-}
+    gap:14px;
+  }
+  .logo{
+    width:46px;height:46px;border-radius:14px;
+    background:linear-gradient(135deg,var(--green),var(--green-dark));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;font-size:20px;
+    box-shadow:var(--shadow);
+    flex-shrink:0;
+    user-select:none;
+  }
+  .brand-text h1{
+    font-size:1.15rem;
+    margin:0;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .brand-text span{
+    font-size:.85rem;
+    color:var(--text-soft);
+  }
 
-.loader{
-    width:50px;
-    height:50px;
+  .hero{
+    text-align:center;
+    padding:34px 0 8px;
+    animation:fadeUp .6s ease both;
+  }
+  .hero h2{
+    font-size:2rem;
+    margin:0 0 10px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+  }
+  .hero p{
+    color:var(--text-soft);
+    font-size:1.02rem;
+    max-width:520px;
+    margin:0 auto;
+  }
+
+  /* ============================================================
+     STATS STRIP (recent supporters)
+  ============================================================ */
+  .stats-strip{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin:26px 0 6px;
+    animation:fadeUp .7s ease both;
+  }
+  .stat-pill{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:8px 16px;
+    font-size:.82rem;
+    color:var(--text-soft);
+    box-shadow:var(--shadow);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .stat-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 0 4px var(--green-light);
+  }
+
+  /* ============================================================
+     SURVEY CARD
+  ============================================================ */
+  .survey-section{
+    margin:34px 0 40px;
+    animation:fadeUp .8s ease both;
+  }
+  .survey-card{
+    background:var(--card);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-lg);
+    border:1px solid var(--border);
+    overflow:hidden;
+    position:relative;
+  }
+  .survey-card-head{
+    padding:22px 26px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .survey-card-head h3{
+    margin:0;
+    font-size:1.05rem;
+    font-weight:700;
+  }
+  .survey-card-head p{
+    margin:2px 0 0;
+    font-size:.85rem;
+    color:var(--text-soft);
+  }
+  .badge-live{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--green-light);
+    color:var(--green-dark);
+    font-weight:600;
+    font-size:.78rem;
+    padding:6px 12px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .badge-live::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:var(--green);
+    animation:pulse 1.6s infinite;
+  }
+
+  .survey-body{
+    position:relative;
+    min-height:640px;
+    background:#fafcfb;
+  }
+
+  .survey-frame{
+    width:100%;
+    height:640px;
+    border:none;
+    display:block;
+    opacity:0;
+    transition:opacity .5s ease;
+  }
+  .survey-frame.loaded{opacity:1;}
+
+  /* Loading overlay */
+  .survey-loading{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    background:#fafcfb;
+    transition:opacity .4s ease, visibility .4s ease;
+  }
+  .survey-loading.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .spinner{
+    width:44px;height:44px;
     border-radius:50%;
-    border:4px solid #d1fae5;
-    border-top-color:var(--primary);
+    border:4px solid var(--green-light);
+    border-top-color:var(--green);
     animation:spin .8s linear infinite;
-}
-
-@keyframes spin{
-
-to{
-transform:rotate(360deg);
-}
-
-}
-
-#surveyContainer{
-
-display:none;
-
-}
-
-#surveyContainer iframe{
-
-width:100%;
-height:900px;
-border:none;
-border-radius:18px;
-
-}
-
-.powered{
-
-margin-top:20px;
-text-align:center;
-color:var(--muted);
-font-size:14px;
-
-}
-
-.powered strong{
-
-color:var(--primary-dark);
-
-}
-
-/* FOOTER */
-
-footer{
-
-margin-top:40px;
-text-align:center;
-color:var(--muted);
-font-size:14px;
-
-}
-
-/* OVERLAY */
-
-.overlay{
-
-position:fixed;
-inset:0;
-background:rgba(15,23,42,.45);
-display:none;
-justify-content:center;
-align-items:center;
-padding:20px;
-z-index:999;
-
-}
-
-.modal{
-
-background:#fff;
-width:100%;
-max-width:600px;
-border-radius:24px;
-padding:28px;
-box-shadow:0 25px 60px rgba(0,0,0,.15);
-animation:popup .25s ease;
-
-}
-
-.large{
-
-max-width:700px;
-
-}
-
-@keyframes popup{
-
-from{
-
-opacity:0;
-transform:translateY(15px);
-
-}
-
-to{
-
-opacity:1;
-transform:none;
-
-}
-
-}
-
-.modal-header{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
-
-}
-
-.modal-header h2{
-
-font-size:26px;
-
-}
-
-.close{
-
-border:none;
-background:none;
-font-size:30px;
-cursor:pointer;
-color:#94a3b8;
-
-}
-
-.modal-content{
-
-color:var(--muted);
-line-height:1.8;
-
-}
-
-/* RECENT SUPPORT */
-
-#recentList{
-
-display:flex;
-flex-direction:column;
-gap:14px;
-
-}
-
-.support-item{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:16px 18px;
-border-radius:16px;
-background:#f8fafc;
-border:1px solid #edf2f7;
-
-}
-
-.support-user{
-
-display:flex;
-align-items:center;
-gap:12px;
-
-}
-
-.avatar{
-
-width:42px;
-height:42px;
-border-radius:50%;
-background:#dcfce7;
-color:var(--primary-dark);
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:700;
-
-}
-
-.support-info h4{
-
-font-size:15px;
-
-}
-
-.support-info span{
-
-font-size:13px;
-color:var(--muted);
-
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-.header{
-
-flex-direction:column;
-gap:24px;
-
-}
-
-nav{
-
-justify-content:center;
-flex-wrap:wrap;
-
-}
-
-.hero h1{
-
-font-size:34px;
-
-}
-
-.survey-card{
-
-padding:18px;
-
-}
-
-#surveyLoading{
-
-height:420px;
-
-}
-
-#surveyContainer iframe{
-
-height:720px;
-
-}
-
-.modal{
-
-padding:20px;
-
-}
-
-}
-
+  }
+  .survey-loading p{
+    color:var(--text-soft);
+    font-size:.92rem;
+    margin:0;
+  }
+
+  /* Timeout / error state inside survey body */
+  .survey-error{
+    position:absolute;
+    inset:0;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    text-align:center;
+    padding:30px;
+    background:#fafcfb;
+  }
+  .survey-error.show{display:flex;}
+  .survey-error .icon{
+    width:52px;height:52px;
+    border-radius:50%;
+    background:#fdeceb;
+    color:#e5484d;
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;
+    font-weight:700;
+  }
+  .survey-error h4{margin:0;font-size:1rem;}
+  .survey-error p{margin:0;color:var(--text-soft);font-size:.88rem;max-width:340px;}
+  .retry-btn{
+    background:var(--green);
+    color:#fff;
+    border:none;
+    padding:10px 20px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:.88rem;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:transform .15s ease, background .2s ease;
+  }
+  .retry-btn:hover{background:var(--green-dark);transform:translateY(-1px);}
+  .retry-btn:active{transform:translateY(0);}
+
+  .survey-card-foot{
+    padding:16px 26px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--text-soft);
+    font-size:.8rem;
+    border-top:1px solid var(--border);
+    flex-wrap:wrap;
+  }
+  .survey-card-foot strong{color:var(--text);}
+
+  /* ============================================================
+     INFO CARDS
+  ============================================================ */
+  .info-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin:0 0 40px;
+    animation:fadeUp .9s ease both;
+  }
+  .info-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:20px;
+    box-shadow:var(--shadow);
+  }
+  .info-card .ic-icon{
+    width:38px;height:38px;
+    border-radius:11px;
+    background:var(--green-light);
+    color:var(--green-dark);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;
+    margin-bottom:12px;
+  }
+  .info-card h4{
+    margin:0 0 6px;
+    font-size:.95rem;
+  }
+  .info-card p{
+    margin:0;
+    font-size:.83rem;
+    color:var(--text-soft);
+  }
+
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+  footer.site-footer{
+    margin-top:auto;
+    border-top:1px solid var(--border);
+    padding:26px 0;
+    background:var(--card);
+  }
+  .footer-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:.85rem;
+    color:var(--text-soft);
+  }
+  .footer-links{
+    display:flex;
+    gap:18px;
+  }
+  .footer-links a{color:var(--text-soft);font-weight:500;}
+  .footer-links a:hover{color:var(--green-dark);}
+
+  /* ============================================================
+     MODAL
+  ============================================================ */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,20,25,0.45);
+    backdrop-filter:blur(3px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:1000;
+    animation:fadeIn .2s ease;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--card);
+    border-radius:var(--radius-lg);
+    max-width:560px;
+    width:100%;
+    max-height:80vh;
+    overflow-y:auto;
+    box-shadow:var(--shadow-lg);
+    padding:30px;
+    animation:modalIn .25s ease;
+    position:relative;
+  }
+  .modal-box h2{margin-top:0;font-size:1.3rem;}
+  .modal-box h3{font-size:1rem;margin:18px 0 6px;}
+  .modal-box p, .modal-box li{color:var(--text-soft);font-size:.92rem;}
+  .modal-close{
+    position:absolute;
+    top:18px;right:18px;
+    width:34px;height:34px;
+    border-radius:50%;
+    border:none;
+    background:var(--bg);
+    color:var(--text);
+    font-size:18px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .2s ease;
+  }
+  .modal-close:hover{background:var(--border);}
+
+  /* ============================================================
+     404 VIEW
+  ============================================================ */
+  .notfound-view{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:80px 20px;
+    flex:1;
+  }
+  .notfound-view.show{display:flex;}
+  .notfound-view h1{font-size:4.5rem;margin:0;color:var(--green);}
+  .notfound-view p{color:var(--text-soft);margin:10px 0 20px;}
+
+  /* ============================================================
+     ANIMATIONS
+  ============================================================ */
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(14px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @keyframes fadeIn{
+    from{opacity:0;} to{opacity:1;}
+  }
+  @keyframes modalIn{
+    from{opacity:0;transform:translateY(10px) scale(.98);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
+  @keyframes spin{
+    to{transform:rotate(360deg);}
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(29,185,84,.5);}
+    70%{box-shadow:0 0 0 6px rgba(29,185,84,0);}
+    100%{box-shadow:0 0 0 0 rgba(29,185,84,0);}
+  }
+
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width:640px){
+    .hero h2{font-size:1.5rem;}
+    .info-grid{grid-template-columns:1fr;}
+    .survey-body, .survey-frame{height:560px;}
+    .survey-card-head{flex-direction:column;align-items:flex-start;}
+  }
 </style>
-
 </head>
 <body>
 
-<div class="page">
+<!-- ============================================================
+     MAIN APP VIEW
+============================================================ -->
+<div id="app-view">
 
-<header class="header">
+  <header class="site-header">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo">R</div>
+        <div class="brand-text">
+          <h1>Support This Website</h1>
+          <span>Help keep this website free by completing a short survey.</span>
+        </div>
+      </div>
+    </div>
+  </header>
 
-<div class="logo">
+  <div class="wrap">
 
-<div class="logo-icon">❤</div>
+    <section class="hero">
+      <h2>RecompForge stays free because of you</h2>
+      <p>Complete a short survey below — it takes just a few minutes and directly helps cover hosting and content costs.</p>
+    </section>
 
-<div class="logo-text">
+    <div class="stats-strip">
+      <div class="stat-pill"><span class="stat-dot"></span> <span id="stat-total">Loading recent activity…</span></div>
+    </div>
 
-<h2>Support</h2>
+    <section class="survey-section">
+      <div class="survey-card">
+        <div class="survey-card-head">
+          <div>
+            <h3>Available Survey</h3>
+            <p>Powered by CPX Research — matched to your profile automatically.</p>
+          </div>
+          <span class="badge-live">Live now</span>
+        </div>
 
-<span>Powered by CPX Research</span>
+        <div class="survey-body" id="survey-body">
+          <div class="survey-loading" id="survey-loading">
+            <div class="spinner"></div>
+            <p>Preparing your survey…</p>
+          </div>
 
-</div>
+          <div class="survey-error" id="survey-error">
+            <div class="icon">!</div>
+            <h4>Survey is taking too long to load</h4>
+            <p>This can happen due to a slow connection or an ad blocker. Please retry.</p>
+            <button class="retry-btn" id="retry-btn">Retry Survey</button>
+          </div>
 
-</div>
+          <iframe
+            id="survey-frame"
+            class="survey-frame"
+            title="CPX Research Survey"
+            scrolling="yes"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
 
-<nav>
+        <div class="survey-card-foot">
+          <span>Your ID: <strong id="user-id-display">generating…</strong></span>
+        </div>
+      </div>
+    </section>
 
-<a id="privacyBtn">Privacy</a>
+    <section class="info-grid">
+      <div class="info-card">
+        <div class="ic-icon">1</div>
+        <h4>Pick a Survey</h4>
+        <p>The widget above shows surveys matched to you. Pick any one that appeals to you.</p>
+      </div>
+      <div class="info-card">
+        <div class="ic-icon">2</div>
+        <h4>Answer Honestly</h4>
+        <p>Complete it truthfully and fully to make sure it counts toward supporting the site.</p>
+      </div>
+      <div class="info-card">
+        <div class="ic-icon">3</div>
+        <h4>You're Done</h4>
+        <p>No signup, no payment, no personal data required from you. Just your time.</p>
+      </div>
+    </section>
 
-<a id="termsBtn">Terms</a>
+  </div>
 
-<a id="recentBtn">Recent Support</a>
-
-</nav>
-
-</header>
-
-<main>
-
-<section class="hero">
-
-<div class="badge">
-
-Support This Website
-
-</div>
-
-<h1>
-
-Complete a Survey
-
-</h1>
-
-<p>
-
-Complete a short survey to help keep this website free.
-
-Your support is greatly appreciated.
-
-</p>
-
-</section>
-
-<section class="survey-card">
-
-<div id="surveyLoading">
-
-<div class="loader"></div>
-
-<p>
-
-Loading surveys...
-
-</p>
-
-</div>
-
-<div id="surveyContainer">
-
-<!--
-CPX iframe এখানে আসবে
--->
-
-</div>
-
-<div class="powered">
-
-Powered by
-
-<strong>
-
-CPX Research
-
-</strong>
-
-</div>
-
-</section>
-
-</main>
-
-<footer>
-
-<p>
-
-© 2026 RecompForge
-
-</p>
-
-</footer>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div>© <span id="year"></span> RecompForge. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#" id="link-privacy">Privacy</a>
+        <a href="#" id="link-terms">Terms</a>
+      </div>
+      <div>Powered by CPX Research</div>
+    </div>
+  </footer>
 
 </div>
 
-<!-- Privacy -->
-
-<div class="overlay" id="privacyModal">
-
-<div class="modal">
-
-<div class="modal-header">
-
-<h2>
-
-Privacy Policy
-
-</h2>
-
-<button class="close">
-
-×
-
-</button>
-
+<!-- ============================================================
+     404 VIEW (hidden unless routed)
+============================================================ -->
+<div class="notfound-view" id="notfound-view">
+  <h1>404</h1>
+  <p>The page you're looking for doesn't exist.</p>
+  <button class="retry-btn" onclick="window.location.href='/'">Go Home</button>
 </div>
 
-<div class="modal-content">
-
-<p>
-
-Privacy content...
-
-</p>
-
+<!-- ============================================================
+     MODALS
+============================================================ -->
+<div class="modal-overlay" id="modal-privacy">
+  <div class="modal-box">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>Privacy Policy</h2>
+    <p>RecompForge Support ("we", "this site") respects your privacy. This page explains what limited data is collected when you use this support page.</p>
+    <h3>Local Identifier</h3>
+    <p>A random anonymous identifier is generated in your browser and stored in your device's local storage. It contains no personal information and is used only to track survey completions for support purposes.</p>
+    <h3>Survey Provider Data</h3>
+    <p>When you interact with the embedded survey widget, CPX Research may collect data according to their own privacy policy in order to match and reward surveys. We do not control or receive this data directly beyond completion status.</p>
+    <h3>Cookies</h3>
+    <p>The survey iframe may set its own cookies for functionality. This site itself does not use tracking cookies beyond local storage described above.</p>
+    <h3>Contact</h3>
+    <p>For questions about this policy, please reach out through the main RecompForge website.</p>
+  </div>
 </div>
 
-</div>
-
-</div>
-
-<!-- Terms -->
-
-<div class="overlay" id="termsModal">
-
-<div class="modal">
-
-<div class="modal-header">
-
-<h2>
-
-Terms of Service
-
-</h2>
-
-<button class="close">
-
-×
-
-</button>
-
-</div>
-
-<div class="modal-content">
-
-<p>
-
-Terms content...
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- Recent Support -->
-
-<div class="overlay" id="recentModal">
-
-<div class="modal large">
-
-<div class="modal-header">
-
-<h2>
-
-❤️ Recent Support
-
-</h2>
-
-<button class="close">
-
-×
-
-</button>
-
-</div>
-
-<div class="modal-content">
-
-<div id="recentLoading">
-
-Loading...
-
-</div>
-
-<div id="recentList">
-
-<!--
-
-Worker API থেকে Load হবে
-
--->
-
-</div>
-
-</div>
-
-</div>
-
+<div class="modal-overlay" id="modal-terms">
+  <div class="modal-box">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>Terms of Service</h2>
+    <p>By using this support page, you agree to the following terms.</p>
+    <h3>Purpose</h3>
+    <p>This page allows visitors to voluntarily support RecompForge by completing third-party surveys through CPX Research.</p>
+    <h3>No Guarantee</h3>
+    <p>Survey availability, reward amounts, and eligibility are determined entirely by CPX Research and its partners. We do not guarantee any specific survey will be available at any time.</p>
+    <h3>Fair Use</h3>
+    <p>You agree to provide honest and accurate responses. Fraudulent, automated, or abusive survey completions may be rejected or blocked.</p>
+    <h3>Changes</h3>
+    <p>These terms may be updated at any time without prior notice. Continued use of this page constitutes acceptance of the current terms.</p>
+  </div>
 </div>
 
 <script>
-/* ==========================================
-   SUPPORT APP
-   PART 1 - CORE
-========================================== */
-
+/* ================================================================
+   CONFIGURATION
+================================================================ */
 const CONFIG = {
-    APP_ID: "34411",
-    API: "https://support-worker.asifiqbal2893.workers.dev",
-    STORAGE_KEY: "support_user_id",
-    USERNAME: "Anonymous",
-    EMAIL: ""
+  CPX_APP_ID: "34411",
+  CPX_BASE_URL: "https://offers.cpx-research.com/index.php",
+  WORKER_BASE_URL: "https://YOUR-WORKER-SUBDOMAIN.workers.dev", // <-- replace with your deployed Worker URL
+  USER_ID_STORAGE_KEY: "support_user_id",
+  SURVEY_LOAD_TIMEOUT_MS: 12000
 };
 
-const App = {
-
-    userId: null,
-
-    init() {
-
-        this.userId = this.getUserId();
-
-        console.log("User:", this.userId);
-
-        this.bindEvents();
-
-    },
-
-    generateId() {
-
-        return "support_user_" +
-            Math.random().toString(36).substring(2,10) +
-            Date.now().toString(36);
-
-    },
-
-    getUserId() {
-
-        let id = localStorage.getItem(CONFIG.STORAGE_KEY);
-
-        if (!id) {
-
-            id = this.generateId();
-
-            localStorage.setItem(CONFIG.STORAGE_KEY, id);
-
-        }
-
-        return id;
-
-    },
-
-    buildSurveyURL() {
-
-        const url = new URL(
-            "https://offers.cpx-research.com/index.php"
-        );
-
-        url.searchParams.set("app_id", CONFIG.APP_ID);
-        url.searchParams.set("ext_user_id", this.userId);
-        url.searchParams.set("username", CONFIG.USERNAME);
-
-        if (CONFIG.EMAIL !== "") {
-
-            url.searchParams.set(
-                "email",
-                CONFIG.EMAIL
-            );
-
-        }
-
-        return url.toString();
-
-    },
-
-    openModal(id) {
-
-        document
-            .getElementById(id)
-            .style.display = "flex";
-
-    },
-
-    closeModal(id) {
-
-        document
-            .getElementById(id)
-            .style.display = "none";
-
-    },
-
-    bindEvents() {
-
-        document
-            .getElementById("privacyBtn")
-            ?.addEventListener("click", () => {
-
-                this.openModal("privacyModal");
-
-            });
-
-        document
-            .getElementById("termsBtn")
-            ?.addEventListener("click", () => {
-
-                this.openModal("termsModal");
-
-            });
-
-        document
-            .getElementById("recentBtn")
-            ?.addEventListener("click", () => {
-
-                this.openModal("recentModal");
-
-                if (typeof loadRecentSupport === "function") {
-
-                    loadRecentSupport();
-
-                }
-
-            });
-
-        document
-            .querySelectorAll(".close")
-            .forEach(btn => {
-
-                btn.addEventListener("click", () => {
-
-                    btn.closest(".overlay").style.display = "none";
-
-                });
-
-            });
-
-        window.addEventListener("click", e => {
-
-            document
-                .querySelectorAll(".overlay")
-                .forEach(modal => {
-
-                    if (e.target === modal) {
-
-                        modal.style.display = "none";
-
-                    }
-
-                });
-
-        });
-
+/* ================================================================
+   LOCAL USER ID
+   Generates once, persists in localStorage, never changes.
+================================================================ */
+function getOrCreateUserId(){
+  try{
+    let existing = localStorage.getItem(CONFIG.USER_ID_STORAGE_KEY);
+    if(existing){
+      return existing;
     }
-
-};
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    App.init();
-
-});
-
-/* ==========================================
-   SUPPORT APP
-   PART 2 - SURVEY
-========================================== */
-
-function loadSurvey() {
-
-    const loading =
-        document.getElementById("surveyLoading");
-
-    const container =
-        document.getElementById("surveyContainer");
-
-    if (!loading || !container) return;
-
-    loading.style.display = "flex";
-    container.style.display = "none";
-    container.innerHTML = "";
-
-    const iframe = document.createElement("iframe");
-
-    iframe.src = App.buildSurveyURL();
-
-    iframe.style.width = "100%";
-    iframe.style.height = "2000px";
-    iframe.style.border = "0";
-    iframe.style.borderRadius = "18px";
-
-    iframe.loading = "eager";
-
-    iframe.referrerPolicy =
-        "strict-origin-when-cross-origin";
-
-    // যদি onload fire হয়
-    iframe.onload = () => {
-
-        loading.style.display = "none";
-
-        container.style.display = "block";
-
-    };
-
-    // Backup timeout (CPX কখনও onload দেয় না)
-    setTimeout(() => {
-
-        if (container.style.display !== "block") {
-
-            loading.style.display = "none";
-
-            container.style.display = "block";
-
-        }
-
-    }, 4000);
-
-    iframe.onerror = () => {
-
-        loading.innerHTML = `
-            <div style="text-align:center">
-                <h3>Unable to load survey</h3>
-                <p>Please refresh and try again.</p>
-            </div>
-        `;
-
-    };
-
-    container.appendChild(iframe);
-
+    const randomPart = Math.random().toString(36).substring(2, 10);
+    const newId = "support_user_" + randomPart;
+    localStorage.setItem(CONFIG.USER_ID_STORAGE_KEY, newId);
+    return newId;
+  }catch(e){
+    // localStorage unavailable (private mode / disabled) — fall back to session-only id
+    return "support_user_" + Math.random().toString(36).substring(2, 10);
+  }
 }
 
-/* ==========================================
-   START SURVEY
-========================================== */
+const USER_ID = getOrCreateUserId();
 
-document.addEventListener("DOMContentLoaded", () => {
+/* ================================================================
+   SURVEY LOADING
+================================================================ */
+let surveyTimeoutHandle = null;
+let surveyHasLoaded = false;
 
-    setTimeout(() => {
-
-        loadSurvey();
-
-    }, 300);
-
-});
-
-/* ==========================================
-   SUPPORT APP
-   PART 3 - RECENT SUPPORT
-========================================== */
-
-let refreshTimer = null;
-
-/* ---------- Country Flag ---------- */
-
-function countryFlag(code){
-
-    if(!code) return "🌍";
-
-    return code
-        .toUpperCase()
-        .replace(/./g,c=>
-            String.fromCodePoint(
-                127397+c.charCodeAt()
-            )
-        );
-
+function buildSurveyUrl(){
+  const params = new URLSearchParams({
+    app_id: CONFIG.CPX_APP_ID,
+    ext_user_id: USER_ID,
+    username: "Anonymous"
+  });
+  return `${CONFIG.CPX_BASE_URL}?${params.toString()}`;
 }
 
-/* ---------- Time Ago ---------- */
+function loadSurvey(){
+  surveyHasLoaded = false;
 
-function timeAgo(date){
+  const frame = document.getElementById("survey-frame");
+  const loadingEl = document.getElementById("survey-loading");
+  const errorEl = document.getElementById("survey-error");
 
-    const sec=Math.floor(
-        (Date.now()-new Date(date))/1000
-    );
+  // reset UI state
+  errorEl.classList.remove("show");
+  loadingEl.classList.remove("hide");
+  frame.classList.remove("loaded");
 
-    if(sec<60) return "Just now";
+  // clear any previous timeout
+  if(surveyTimeoutHandle){
+    clearTimeout(surveyTimeoutHandle);
+  }
 
-    if(sec<3600)
-        return Math.floor(sec/60)+" min ago";
+  frame.src = buildSurveyUrl();
 
-    if(sec<86400)
-        return Math.floor(sec/3600)+" hr ago";
-
-    return Math.floor(sec/86400)+" day ago";
-
-}
-
-/* ---------- Render ---------- */
-
-function renderSupport(list){
-
-    const box=document.getElementById("recentList");
-
-    const loading=document.getElementById("recentLoading");
-
-    if(!box) return;
-
-    loading.style.display="none";
-
-    box.innerHTML="";
-
-    if(list.length===0){
-
-        box.innerHTML=`
-        <div class="support-item">
-            No supporters yet ❤️
-        </div>
-        `;
-
-        return;
-
+  surveyTimeoutHandle = setTimeout(function(){
+    if(!surveyHasLoaded){
+      loadingEl.classList.add("hide");
+      errorEl.classList.add("show");
     }
+  }, CONFIG.SURVEY_LOAD_TIMEOUT_MS);
+}
 
-    list.forEach(item=>{
+function onSurveyFrameLoaded(){
+  surveyHasLoaded = true;
+  if(surveyTimeoutHandle){
+    clearTimeout(surveyTimeoutHandle);
+  }
+  document.getElementById("survey-loading").classList.add("hide");
+  document.getElementById("survey-error").classList.remove("show");
+  document.getElementById("survey-frame").classList.add("loaded");
+}
 
-        let shortId="Guest";
+/* ================================================================
+   RECENT SUPPORTERS (optional stats strip)
+================================================================ */
+async function loadRecentActivity(){
+  const statEl = document.getElementById("stat-total");
+  try{
+    const res = await fetch(`${CONFIG.WORKER_BASE_URL}/api/recent`, { method: "GET" });
+    if(!res.ok){
+      throw new Error("Network response was not ok");
+    }
+    const data = await res.json();
+    if(data && data.success && Array.isArray(data.results)){
+      statEl.textContent = `${data.results.length} recent completions tracked`;
+    }else{
+      statEl.textContent = "Thanks for supporting this site";
+    }
+  }catch(e){
+    statEl.textContent = "Thanks for supporting this site";
+  }
+}
 
-        if(item.user_id){
+/* ================================================================
+   MODALS
+================================================================ */
+function openModal(id){
+  document.getElementById(id).classList.add("open");
+}
+function closeModal(el){
+  el.classList.remove("open");
+}
+function closeAllModals(){
+  document.querySelectorAll(".modal-overlay.open").forEach(closeModal);
+}
 
-            shortId=item.user_id
-            .replace("support_user_","")
-            .substring(0,6);
+/* ================================================================
+   404 ROUTING (simple client-side check)
+================================================================ */
+function checkRoute(){
+  const knownPaths = ["/", "/index.html", ""];
+  const path = window.location.pathname;
+  const isKnown = knownPaths.some(function(p){
+    return path === p || path.endsWith(p) && p !== "";
+  }) || path === "/" || path.split("/").pop() === "index.html" || path.split("/").pop() === "";
 
-        }
+  if(!isKnown){
+    document.getElementById("app-view").style.display = "none";
+    document.getElementById("notfound-view").classList.add("show");
+  }
+}
 
-        box.insertAdjacentHTML(
+/* ================================================================
+   INIT / EVENT WIRING (single source of truth — no duplicates)
+================================================================ */
+document.addEventListener("DOMContentLoaded", function(){
 
-            "beforeend",
+  // year + user id display
+  document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("user-id-display").textContent = USER_ID;
 
-            `
-            <div class="support-item">
+  // survey
+  const frame = document.getElementById("survey-frame");
+  frame.addEventListener("load", onSurveyFrameLoaded);
+  loadSurvey();
 
-                <div class="support-user">
+  document.getElementById("retry-btn").addEventListener("click", loadSurvey);
 
-                    <div class="avatar">
+  // recent activity
+  loadRecentActivity();
 
-                        ${countryFlag(item.country)}
+  // modal open triggers
+  document.getElementById("link-privacy").addEventListener("click", function(e){
+    e.preventDefault();
+    openModal("modal-privacy");
+  });
+  document.getElementById("link-terms").addEventListener("click", function(e){
+    e.preventDefault();
+    openModal("modal-terms");
+  });
 
-                    </div>
-
-                    <div class="support-info">
-
-                        <h4>User-${shortId}</h4>
-
-                        <span>
-
-                            ${item.country || "Unknown"}
-
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <div>
-
-                    ${timeAgo(item.created_at)}
-
-                </div>
-
-            </div>
-            `
-
-        );
-
+  // modal close: close button
+  document.querySelectorAll("[data-close]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      closeModal(btn.closest(".modal-overlay"));
     });
+  });
 
-}
+  // modal close: click outside box
+  document.querySelectorAll(".modal-overlay").forEach(function(overlay){
+    overlay.addEventListener("click", function(e){
+      if(e.target === overlay){
+        closeModal(overlay);
+      }
+    });
+  });
 
-/* ---------- API ---------- */
-
-async function loadRecentSupport(){
-
-    const loading=document.getElementById("recentLoading");
-
-    if(loading){
-
-        loading.style.display="block";
-
-        loading.innerHTML="Loading...";
-
+  // modal close: ESC key
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape"){
+      closeAllModals();
     }
+  });
 
-    try{
+  // simple route check (for static hosts that route unknown paths here)
+  checkRoute();
 
-        const res=await fetch(
-
-            CONFIG.API+"/api/recent"
-
-        );
-
-        if(!res.ok){
-
-            throw new Error("API Error");
-
-        }
-
-        const data=await res.json();
-
-        renderSupport(data);
-
-    }
-
-    catch(e){
-
-        console.error(e);
-
-        loading.innerHTML="Failed to load.";
-
-    }
-
-}
-
-/* ---------- Refresh ---------- */
-
-function startRefresh(){
-
-    if(refreshTimer){
-
-        clearInterval(refreshTimer);
-
-    }
-
-    refreshTimer=setInterval(
-
-        loadRecentSupport,
-
-        30000
-
-    );
-
-}
-
-/* ---------- Recent Button ---------- */
-
-document
-.getElementById("recentBtn")
-.addEventListener(
-
-    "click",
-
-    ()=>{
-
-        loadRecentSupport();
-
-    }
-
-);
-
-/* ==========================================
-   SUPPORT APP
-   PART 4 - FINAL
-========================================== */
-
-function refreshSupport(){
-
-    loadRecentSupport();
-
-}
-
-/* ---------- Survey Message ---------- */
-
-window.addEventListener(
-
-    "message",
-
-    function(event){
-
-        // Future CPX Message Support
-
-        refreshSupport();
-
-    }
-
-);
-
-/* ---------- Internet ---------- */
-
-window.addEventListener(
-
-    "online",
-
-    ()=>{
-
-        console.log("Online");
-
-        loadRecentSupport();
-
-    }
-
-);
-
-window.addEventListener(
-
-    "offline",
-
-    ()=>{
-
-        console.log("Offline");
-
-    }
-
-);
-
-/* ---------- Visibility ---------- */
-
-document.addEventListener(
-
-    "visibilitychange",
-
-    ()=>{
-
-        if(document.hidden){
-
-            if(refreshTimer){
-
-                clearInterval(refreshTimer);
-
-            }
-
-        }
-
-        else{
-
-            loadRecentSupport();
-
-            startRefresh();
-
-        }
-
-    }
-
-);
-
-/* ---------- Startup ---------- */
-
-window.addEventListener(
-
-    "load",
-
-    ()=>{
-
-        console.log("Support App Started");
-
-        console.log("User ID:",App.userId);
-
-        console.log("API:",CONFIG.API);
-
-        loadSurvey();
-
-        loadRecentSupport();
-
-        startRefresh();
-
-    }
-
-);
-
-/* ---------- Debug ---------- */
-
-window.App = App;
-
-window.loadSurvey = loadSurvey;
-
-window.loadRecentSupport = loadRecentSupport;
+});
 </script>
 
 </body>
