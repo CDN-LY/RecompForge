@@ -481,23 +481,17 @@
         <div class="survey-body" id="survey-body">
           <div class="survey-loading" id="survey-loading">
             <div class="spinner"></div>
-            <p>Preparing your survey…</p>
+            <p>Preparing your surveys…</p>
           </div>
 
           <div class="survey-error" id="survey-error">
             <div class="icon">!</div>
-            <h4>Survey is taking too long to load</h4>
-            <p>This can happen due to a slow connection or an ad blocker. Please retry.</p>
-            <button class="retry-btn" id="retry-btn">Retry Survey</button>
+            <h4>No surveys available right now</h4>
+            <p>This can happen due to your profile, location, or a temporary lack of surveys. Please check back shortly.</p>
+            <button class="retry-btn" id="retry-btn">Retry</button>
           </div>
 
-          <iframe
-            id="survey-frame"
-            class="survey-frame"
-            title="CPX Research Survey"
-            scrolling="yes"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
+          <div id="fullscreen" style="max-width:100%;margin:0 auto;min-height:640px;"></div>
         </div>
 
         <div class="survey-card-foot">
@@ -588,8 +582,8 @@
    CONFIGURATION
 ================================================================ */
 const CONFIG = {
-  CPX_APP_ID: "34411",
-  CPX_BASE_URL: "https://offers.cpx-research.com",
+  CPX_APP_ID: 34411,
+  CPX_WIDGET_SCRIPT_URL: "https://cdn.cpx-research.com/assets/js/script_tag_v2.0.js",
   WORKER_BASE_URL: "https://YOUR-WORKER-SUBDOMAIN.workers.dev", // <-- replace with your deployed Worker URL
   USER_ID_STORAGE_KEY: "support_user_id",
   SURVEY_LOAD_TIMEOUT_MS: 12000
@@ -618,54 +612,106 @@ function getOrCreateUserId(){
 const USER_ID = getOrCreateUserId();
 
 /* ================================================================
-   SURVEY LOADING
+   SURVEY WIDGET (CPX Research script-tag integration)
 ================================================================ */
 let surveyTimeoutHandle = null;
-let surveyHasLoaded = false;
+let surveyHasResponded = false;
 
-function buildSurveyUrl(){
-  const params = new URLSearchParams({
-    app_id: CONFIG.CPX_APP_ID,
-    ext_user_id: USER_ID,
-  });
-  return `${CONFIG.CPX_BASE_URL}?${params.toString()}`;
-}
-
-function loadSurvey(){
-  surveyHasLoaded = false;
-
-  const frame = document.getElementById("survey-frame");
-  const loadingEl = document.getElementById("survey-loading");
-  const errorEl = document.getElementById("survey-error");
-
-  // reset UI state
-  errorEl.classList.remove("show");
-  loadingEl.classList.remove("hide");
-  frame.classList.remove("loaded");
-
-  // clear any previous timeout
-  if(surveyTimeoutHandle){
-    clearTimeout(surveyTimeoutHandle);
-  }
-
-  frame.src = buildSurveyUrl();
-
-  surveyTimeoutHandle = setTimeout(function(){
-    if(!surveyHasLoaded){
-      loadingEl.classList.add("hide");
-      errorEl.classList.add("show");
-    }
-  }, CONFIG.SURVEY_LOAD_TIMEOUT_MS);
-}
-
-function onSurveyFrameLoaded(){
-  surveyHasLoaded = true;
+function showSurveyLoaded(){
+  surveyHasResponded = true;
   if(surveyTimeoutHandle){
     clearTimeout(surveyTimeoutHandle);
   }
   document.getElementById("survey-loading").classList.add("hide");
   document.getElementById("survey-error").classList.remove("show");
-  document.getElementById("survey-frame").classList.add("loaded");
+}
+
+function showSurveyUnavailable(){
+  surveyHasResponded = true;
+  if(surveyTimeoutHandle){
+    clearTimeout(surveyTimeoutHandle);
+  }
+  document.getElementById("survey-loading").classList.add("hide");
+  document.getElementById("survey-error").classList.add("show");
+}
+
+function loadSurvey(){
+  surveyHasResponded = false;
+
+  const loadingEl = document.getElementById("survey-loading");
+  const errorEl = document.getElementById("survey-error");
+  const container = document.getElementById("fullscreen");
+
+  errorEl.classList.remove("show");
+  loadingEl.classList.remove("hide");
+  container.innerHTML = "";
+
+  if(surveyTimeoutHandle){
+    clearTimeout(surveyTimeoutHandle);
+  }
+
+  // ---- CPX widget configuration ----
+  const script1 = {
+    div_id: "fullscreen",
+    theme_style: 1,
+    order_by: 2,
+    limit_surveys: 7
+  };
+
+  window.config = {
+    general_config: {
+      app_id: CONFIG.CPX_APP_ID,
+      ext_user_id: USER_ID
+    },
+    style_config: {
+      text_color: "#1b1f23",
+      survey_box: {
+        topbar_background_color: "#1db954",
+        box_background_color: "white",
+        rounded_borders: true,
+        stars_filled: "#1db954"
+      }
+    },
+    script_config: [script1],
+    debug: false,
+    useIFrame: true,
+    iFramePosition: 1,
+    functions: {
+      no_surveys_available: function(){
+        showSurveyUnavailable();
+      },
+      count_new_surveys: function(countsurveys){
+        if(countsurveys && countsurveys > 0){
+          showSurveyLoaded();
+        }
+      },
+      get_all_surveys: function(surveys){
+        if(surveys && surveys.length > 0){
+          showSurveyLoaded();
+        }
+      },
+      get_transaction: function(transactions){
+        // no-op: completions are recorded server-side via the Worker callback
+      }
+    }
+  };
+
+  // inject (or re-inject) the CPX widget script
+  const existingScript = document.getElementById("cpx-widget-script");
+  if(existingScript){
+    existingScript.remove();
+  }
+  const scriptEl = document.createElement("script");
+  scriptEl.id = "cpx-widget-script";
+  scriptEl.src = CONFIG.CPX_WIDGET_SCRIPT_URL;
+  scriptEl.onerror = showSurveyUnavailable;
+  document.body.appendChild(scriptEl);
+
+  surveyTimeoutHandle = setTimeout(function(){
+    if(!surveyHasResponded){
+      showSurveyUnavailable();
+    }
+  }, CONFIG.SURVEY_LOAD_TIMEOUT_MS);
 }
 
 /* ================================================================
@@ -728,8 +774,6 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("user-id-display").textContent = USER_ID;
 
   // survey
-  const frame = document.getElementById("survey-frame");
-  frame.addEventListener("load", onSurveyFrameLoaded);
   loadSurvey();
 
   document.getElementById("retry-btn").addEventListener("click", loadSurvey);
